@@ -52,7 +52,7 @@ gem "ruby-openai"
 gem "ransack"
 
 # Lightweight pagination
-gem "pagy", "~> 9.0"
+gem "pagy", "~> 43.2"
 
 # Dashboard charts
 gem "chartkick"
