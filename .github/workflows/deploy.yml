@@ -35,7 +35,9 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Add server to known_hosts
-        run: ssh-keyscan -H 178.156.251.188 >> ~/.ssh/known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan 178.156.251.188 > ~/.ssh/known_hosts
 
       - name: Write master key
         run: echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
