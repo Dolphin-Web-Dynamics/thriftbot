@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "Running pre-commit checks..."
+
+echo "=> Rubocop..."
+bin/rubocop --parallel || exit 1
+
+echo "=> Brakeman..."
+bin/brakeman --no-pager -q || exit 1
+
+echo "=> Tests..."
+bin/rails test || exit 1
+
+echo "All checks passed!"
