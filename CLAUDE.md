@@ -39,6 +39,27 @@ KAMAL_REGISTRY_PASSWORD="<docker-hub-pat>" ADMIN_PASSWORD="<password>" kamal dep
 
 Secrets flow: GitHub Actions secret → Kamal → container environment variable. Never stored in Docker Hub.
 
+## Git Workflow
+
+**Never commit features or bug fixes directly to `main`.** Always use a feature branch and open a pull request.
+
+### Before Starting Any Work
+1. Pull the latest from `main` to make sure you're up to date with origin:
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+2. Create a new branch for your work:
+   ```bash
+   git checkout -b your-branch-name
+   ```
+3. When ready, use the `/commit-push-pr` skill to commit, push, and open a PR in one step.
+
+### Branch Naming
+- Features: `feature/short-description`
+- Bug fixes: `fix/short-description`
+- Chores/docs: `chore/short-description`
+
 ## GitHub
 
 - **Repo**: Dolphin-Web-Dynamics/thriftbot

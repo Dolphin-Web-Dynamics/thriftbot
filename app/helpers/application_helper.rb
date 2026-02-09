@@ -1,6 +1,4 @@
 module ApplicationHelper
-  include Pagy::Frontend
-
   def currency(amount)
     return "-" if amount.nil?
     number_to_currency(amount)
