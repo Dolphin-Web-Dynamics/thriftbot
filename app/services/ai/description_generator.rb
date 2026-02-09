@@ -22,7 +22,7 @@ module Ai
       response = client.chat(
         parameters: {
           model: "gpt-4o-mini",
-          messages: [{ role: "user", content: prompt }],
+          messages: [ { role: "user", content: prompt } ],
           temperature: 0.7,
           max_tokens: max_tokens
         }
@@ -34,7 +34,7 @@ module Ai
       prompt = <<~PROMPT
         Generate a compelling resale listing description for this thrift item:
         - Brand: #{@item.brand&.name || "Unknown"}
-        - Category: #{[@item.category&.name, @item.subcategory&.name].compact.join(" / ")}
+        - Category: #{[ @item.category&.name, @item.subcategory&.name ].compact.join(" / ")}
         - Type: #{@item.item_type}
         - Size: #{@item.size}
         - Colors: #{@item.colors}

@@ -14,14 +14,20 @@ class CsvImportsController < ApplicationController
     end
 
     uploaded_file = params[:file]
-    @csv_import = CsvImport.create!(filename: uploaded_file.original_filename, status: :pending)
+    sanitized_filename = sanitize_filename(uploaded_file.original_filename)
+    @csv_import = CsvImport.create!(filename: sanitized_filename, status: :pending)
 
-    temp_path = Rails.root.join("tmp", "csv_import_#{@csv_import.id}_#{uploaded_file.original_filename}")
-    File.open(temp_path, "wb") { |f| f.write(uploaded_file.read) }
+    tempfile = Tempfile.new([ "csv_import", ".csv" ], Rails.root.join("tmp").to_s)
+    begin
+      tempfile.binmode
+      tempfile.write(uploaded_file.read)
+      tempfile.rewind
 
-    CsvImportService.new(@csv_import, temp_path.to_s).call
-
-    File.delete(temp_path) if File.exist?(temp_path)
+      CsvImportService.new(@csv_import, tempfile.path).call
+    ensure
+      tempfile.close
+      tempfile.unlink
+    end
 
     if @csv_import.reload.failed?
       redirect_to csv_imports_path, alert: "Import failed. Check the error log for details."
@@ -36,5 +42,11 @@ class CsvImportsController < ApplicationController
     csv_import.destroy
 
     redirect_to csv_imports_path, notice: "Import and all associated records deleted."
+  end
+
+  private
+
+  def sanitize_filename(filename)
+    File.basename(filename).gsub(/[^a-zA-Z0-9._-]/, "_")
   end
 end

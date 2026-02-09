@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy, :generate_ai_content, :update_ai_content, :record_sale]
+  before_action :set_item, only: [ :show, :edit, :update, :destroy, :generate_ai_content, :update_ai_content, :record_sale ]
 
   def index
     @q = Item.ransack(params[:q])

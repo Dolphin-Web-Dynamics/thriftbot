@@ -28,14 +28,14 @@ puts "Seeded #{Source.count} sources"
 
 # Categories and subcategories
 categories = {
-  "Tops" => ["T-Shirts", "Sweaters", "Hoodies", "Polos", "Button-Downs", "Tank Tops", "Long Sleeves"],
-  "Bottoms" => ["Jeans", "Shorts", "Pants", "Joggers", "Sweatpants", "Cargo"],
-  "Outerwear" => ["Jackets", "Coats", "Vests", "Windbreakers", "Puffers", "Fleece"],
-  "Footwear" => ["Sneakers", "Boots", "Sandals", "Dress Shoes", "Slides"],
-  "Accessories" => ["Hats", "Bags", "Belts", "Scarves", "Jewelry", "Sunglasses", "Watches"],
-  "Dresses & Skirts" => ["Dresses", "Skirts", "Jumpsuits", "Rompers"],
-  "Activewear" => ["Sports Tops", "Leggings", "Shorts", "Sports Bras"],
-  "Suits & Formalwear" => ["Blazers", "Dress Pants", "Suits", "Ties"]
+  "Tops" => [ "T-Shirts", "Sweaters", "Hoodies", "Polos", "Button-Downs", "Tank Tops", "Long Sleeves" ],
+  "Bottoms" => [ "Jeans", "Shorts", "Pants", "Joggers", "Sweatpants", "Cargo" ],
+  "Outerwear" => [ "Jackets", "Coats", "Vests", "Windbreakers", "Puffers", "Fleece" ],
+  "Footwear" => [ "Sneakers", "Boots", "Sandals", "Dress Shoes", "Slides" ],
+  "Accessories" => [ "Hats", "Bags", "Belts", "Scarves", "Jewelry", "Sunglasses", "Watches" ],
+  "Dresses & Skirts" => [ "Dresses", "Skirts", "Jumpsuits", "Rompers" ],
+  "Activewear" => [ "Sports Tops", "Leggings", "Shorts", "Sports Bras" ],
+  "Suits & Formalwear" => [ "Blazers", "Dress Pants", "Suits", "Ties" ]
 }
 
 categories.each do |cat_name, subs|

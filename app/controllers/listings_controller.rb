@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
   before_action :set_item
-  before_action :set_listing, only: [:edit, :update, :destroy, :delist]
+  before_action :set_listing, only: [ :edit, :update, :destroy, :delist ]
 
   def new
     @listing = @item.listings.build

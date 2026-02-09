@@ -37,16 +37,16 @@ class CsvImportService
     category = row["Category"].present? ? Category.find_or_create_by!(name: row["Category"].strip) : nil
     subcategory = if row["Subcategory"].present? && category
                     category.subcategories.find_or_create_by!(name: row["Subcategory"].strip)
-                  end
+    end
 
     status = case row["Status"]&.downcase
-             when "drafted", "draft" then :drafted
-             when "listed", "active" then :listed
-             when "sold" then :sold
-             when "archived" then :archived
-             when "donated" then :donated
-             else :drafted
-             end
+    when "drafted", "draft" then :drafted
+    when "listed", "active" then :listed
+    when "sold" then :sold
+    when "archived" then :archived
+    when "donated" then :donated
+    else :drafted
+    end
 
     item = Item.find_or_initialize_by(sku: row["SKU"]&.strip)
     item.assign_attributes(

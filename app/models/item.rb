@@ -43,7 +43,7 @@ class Item < ApplicationRecord
   end
 
   # Scopes
-  scope :in_stock, -> { where.not(status: [:sold, :archived, :donated]) }
+  scope :in_stock, -> { where.not(status: [ :sold, :archived, :donated ]) }
   scope :by_brand, ->(brand) { where(brand: brand) }
   scope :by_source, ->(source) { where(source: source) }
   scope :recent, -> { order(created_at: :desc) }
@@ -64,11 +64,11 @@ class Item < ApplicationRecord
   def suggested_price_for(platform)
     return nil unless comp_price
     multiplier = case platform.pricing_tier
-                 when "lower"  then 0.85
-                 when "mid"    then 1.0
-                 when "higher" then 1.15
-                 else 1.0
-                 end
+    when "lower"  then 0.85
+    when "mid"    then 1.0
+    when "higher" then 1.15
+    else 1.0
+    end
     (comp_price * multiplier).round(2)
   end
 
