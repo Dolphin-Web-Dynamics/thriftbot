@@ -1,1 +1,41 @@
 @import "tailwindcss";
+
+/* Pagy pagination */
+@layer components {
+  .pagy {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .pagy a,
+  .pagy span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+    transition: all 150ms ease;
+  }
+
+  .pagy a:hover:not([aria-disabled="true"]):not(.current) {
+    background-color: #f3f4f6;
+    color: #111827;
+  }
+
+  .pagy a.current,
+  .pagy .current {
+    background-color: #4f46e5;
+    color: #fff;
+  }
+
+  .pagy a[aria-disabled="true"] {
+    color: #d1d5db;
+    cursor: default;
+  }
+}

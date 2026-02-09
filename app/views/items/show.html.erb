@@ -158,7 +158,12 @@
 
     <!-- Sale Info / Record Sale -->
     <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-lg font-semibold text-gray-900 mb-4">Sale</h2>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold text-gray-900">Sale</h2>
+        <% if @sale %>
+          <%= link_to "Edit", edit_sale_path(@sale), class: "text-sm text-indigo-600 hover:underline" %>
+        <% end %>
+      </div>
       <% if @sale %>
         <div class="space-y-3">
           <div class="flex justify-between">
@@ -174,6 +179,14 @@
             <span class="text-sm font-medium text-green-600"><%= currency(@sale.revenue_received) %></span>
           </div>
           <div class="flex justify-between">
+            <span class="text-sm text-gray-500">Platform Fees</span>
+            <span class="text-sm"><%= currency(@sale.platform_fees) %></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-sm text-gray-500">Shipping Cost</span>
+            <span class="text-sm"><%= currency(@sale.shipping_cost) %></span>
+          </div>
+          <div class="flex justify-between">
             <span class="text-sm text-gray-500">Profit</span>
             <span class="text-sm font-medium <%= @sale.profit && @sale.profit > 0 ? 'text-green-600' : 'text-red-600' %>">
               <%= @sale.profit ? currency(@sale.profit) : "-" %>
@@ -183,6 +196,12 @@
             <span class="text-sm text-gray-500">Date</span>
             <span class="text-sm"><%= @sale.sold_on %></span>
           </div>
+          <% if @sale.notes.present? %>
+            <div class="border-t pt-3">
+              <span class="text-sm text-gray-500">Notes</span>
+              <p class="text-sm text-gray-700 mt-1"><%= @sale.notes %></p>
+            </div>
+          <% end %>
         </div>
       <% elsif !@item.sold? %>
         <h3 class="text-sm font-medium text-gray-700 mb-3">Record a Sale</h3>

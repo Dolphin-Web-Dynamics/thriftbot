@@ -1,0 +1,55 @@
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Edit Sale: <%= @sale.item.sku %></h1>
+
+<div class="bg-white rounded-lg shadow p-6 max-w-lg">
+  <%= form_with model: @sale, class: "space-y-4" do |f| %>
+    <% if @sale.errors.any? %>
+      <div class="bg-red-50 border border-red-200 rounded-md p-4">
+        <ul class="text-sm text-red-600 list-disc list-inside">
+          <% @sale.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :platform_id, "Platform", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :platform_id, Platform.active.order(:name).pluck(:name, :id), { prompt: "Select..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :sold_price, "Sold Price", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :sold_price, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :revenue_received, "Revenue Received", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :revenue_received, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :platform_fees, "Platform Fees", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :platform_fees, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :shipping_cost, "Shipping Cost", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :shipping_cost, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :sold_on, "Date", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.date_field :sold_on, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :notes, "Notes", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_area :notes, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+    </div>
+
+    <div class="flex gap-3 pt-2">
+      <%= f.submit "Update Sale", class: "bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 cursor-pointer" %>
+      <%= link_to "Cancel", item_path(@sale.item), class: "bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200" %>
+    </div>
+  <% end %>
+</div>

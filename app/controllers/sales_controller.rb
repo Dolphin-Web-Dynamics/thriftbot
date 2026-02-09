@@ -1,4 +1,6 @@
 class SalesController < ApplicationController
+  before_action :set_sale, only: [ :show, :edit, :update ]
+
   def index
     @q = Sale.ransack(params[:q])
     @q.sorts = "sold_on desc" if @q.sorts.empty?
@@ -10,6 +12,29 @@ class SalesController < ApplicationController
   end
 
   def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @sale.update(sale_params)
+      redirect_to item_path(@sale.item), notice: "Sale updated successfully."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def set_sale
     @sale = Sale.includes(:item, :platform).find(params[:id])
+  end
+
+  def sale_params
+    params.require(:sale).permit(
+      :platform_id, :sold_price, :revenue_received,
+      :platform_fees, :shipping_cost, :sold_on, :notes
+    )
   end
 end

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   end
 
   resources :csv_imports, only: [ :index, :new, :create, :destroy ]
-  resources :sales, only: [ :index, :show ]
+  resources :sales, only: [ :index, :show, :edit, :update ]
   resources :brands, only: [ :index, :create ]
   resources :categories, only: [ :index, :create ] do
     resources :subcategories, only: [ :create ]
