@@ -1,0 +1,46 @@
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Add Listing for <%= @item.sku %></h1>
+
+<div class="bg-white rounded-lg shadow p-6 max-w-lg">
+  <%= form_with(model: [@item, @listing], class: "space-y-4") do |f| %>
+    <% if @listing.errors.any? %>
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+        <% @listing.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :platform_id, "Platform", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :platform_id, @platforms.pluck(:name, :id), { prompt: "Select platform..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :asking_price, "Asking Price ($)", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.number_field :asking_price, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      <% if @item.comp_price %>
+        <p class="text-xs text-gray-500 mt-1">Comp price: <%= number_to_currency(@item.comp_price) %></p>
+      <% end %>
+    </div>
+
+    <div>
+      <%= f.label :status, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :status, Listing.statuses.keys.map { |k| [k.humanize, k] }, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :external_url, "External Listing URL", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.url_field :external_url, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+
+    <div>
+      <%= f.label :platform_notes, "Notes", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_area :platform_notes, rows: 2, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+
+    <div class="flex justify-end gap-3 pt-4">
+      <%= link_to "Cancel", item_path(@item), class: "text-gray-600 px-4 py-2 text-sm" %>
+      <%= f.submit "Create Listing", class: "bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

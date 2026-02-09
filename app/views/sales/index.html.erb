@@ -1,0 +1,47 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Sales</h1>
+  <div class="flex gap-4 text-sm">
+    <div class="bg-green-50 text-green-700 px-4 py-2 rounded-lg">
+      Revenue: <strong><%= currency(@total_revenue) %></strong>
+    </div>
+  </div>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Brand</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Platform</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sold Price</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenue</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profit</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% @sales.each do |sale| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4">
+            <%= link_to sale.item.sku, item_path(sale.item), class: "font-medium text-indigo-600 hover:underline" %>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-700"><%= sale.item.brand&.name %></td>
+          <td class="px-6 py-4 text-sm text-gray-700"><%= sale.platform.name %></td>
+          <td class="px-6 py-4 text-sm text-gray-700"><%= currency(sale.sold_price) %></td>
+          <td class="px-6 py-4 text-sm font-medium text-green-600"><%= currency(sale.revenue_received) %></td>
+          <td class="px-6 py-4 text-sm font-medium <%= sale.profit && sale.profit > 0 ? 'text-green-600' : 'text-red-600' %>">
+            <%= sale.profit ? currency(sale.profit) : "-" %>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-500"><%= sale.sold_on %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if @pagy.pages > 1 %>
+  <div class="mt-4">
+    <%== pagy_nav(@pagy) %>
+  </div>
+<% end %>

@@ -1,0 +1,85 @@
+<div class="mb-8">
+  <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+</div>
+
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="bg-white rounded-lg shadow p-6">
+    <p class="text-sm font-medium text-gray-500">Items In Stock</p>
+    <p class="text-3xl font-bold text-gray-900"><%= @total_items %></p>
+    <p class="text-sm text-gray-400"><%= @items_drafted %> drafted, <%= @items_listed %> listed</p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <p class="text-sm font-medium text-gray-500">Total Invested</p>
+    <p class="text-3xl font-bold text-gray-900"><%= currency(@total_invested) %></p>
+    <p class="text-sm text-gray-400">In current inventory</p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <p class="text-sm font-medium text-gray-500">Total Revenue</p>
+    <p class="text-3xl font-bold text-green-600"><%= currency(@total_revenue) %></p>
+    <p class="text-sm text-gray-400"><%= @total_sales_count %> items sold</p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <p class="text-sm font-medium text-gray-500">Avg Revenue/Sale</p>
+    <p class="text-3xl font-bold text-gray-900">
+      <%= @total_sales_count > 0 ? currency(@total_revenue / @total_sales_count) : "-" %>
+    </p>
+  </div>
+</div>
+
+<!-- Charts -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Revenue by Platform</h2>
+    <%= bar_chart @sales_by_platform, prefix: "$" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Monthly Revenue</h2>
+    <%= line_chart @sales_by_month, prefix: "$" %>
+  </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Sales</h2>
+    <% if @recent_sales.any? %>
+      <div class="space-y-3">
+        <% @recent_sales.each do |sale| %>
+          <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+            <div>
+              <%= link_to sale.item.sku, item_path(sale.item), class: "font-medium text-indigo-600 hover:underline" %>
+              <span class="text-sm text-gray-500">on <%= sale.platform.name %></span>
+            </div>
+            <span class="font-semibold text-green-600"><%= currency(sale.revenue_received) %></span>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 text-sm">No sales recorded yet.</p>
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Recent Items</h2>
+    <% if @recent_items.any? %>
+      <div class="space-y-3">
+        <% @recent_items.each do |item| %>
+          <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+            <div>
+              <%= link_to item.sku, item_path(item), class: "font-medium text-indigo-600 hover:underline" %>
+              <span class="text-sm text-gray-500"><%= item.brand&.name %></span>
+            </div>
+            <%= status_badge(item.status) %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 text-sm">No items yet. <%= link_to "Add your first item", new_item_path, class: "text-indigo-600 hover:underline" %>.</p>
+    <% end %>
+  </div>
+</div>

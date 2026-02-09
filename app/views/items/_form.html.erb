@@ -1,0 +1,191 @@
+<%= form_with(model: item, class: "space-y-8") do |f| %>
+  <% if item.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+      <h3 class="font-medium"><%= pluralize(item.errors.count, "error") %> prevented this item from being saved:</h3>
+      <ul class="list-disc list-inside mt-2 text-sm">
+        <% item.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Identity -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Item Identity</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= f.label :sku, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :sku, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :general_title, "Title", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :general_title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div class="md:col-span-2">
+        <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :description, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Classification -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Classification</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <%= f.label :brand_id, "Brand", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :brand_id, Brand.order(:name).pluck(:name, :id), { include_blank: "Select brand..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :category_id, "Category", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :category_id, Category.order(:name).pluck(:name, :id), { include_blank: "Select category..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :subcategory_id, "Subcategory", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :subcategory_id, Subcategory.order(:name).pluck(:name, :id), { include_blank: "Select subcategory..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :item_type, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :item_type, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :product_type, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :product_type, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :target_gender, "Gender", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :target_gender, Item.target_genders.keys.map { |k| [k.humanize, k] }, { include_blank: "Select..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Physical Attributes -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Physical Attributes</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <%= f.label :size, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :size, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :product_model, "Model", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :product_model, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :colors, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :colors, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :materials, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :materials, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :condition, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :condition, Item.conditions.keys.map { |k| [k.humanize, k] }, { include_blank: "Select..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :weight, "Weight (lbs)", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :weight, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :fit, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :fit, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :body_fit, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :body_fit, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :occasion, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :occasion, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div class="md:col-span-3">
+        <%= f.label :imperfections, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :imperfections, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Acquisition & Pricing -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Acquisition & Pricing</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <%= f.label :source_id, "Source", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :source_id, Source.order(:name).pluck(:name, :id), { include_blank: "Select source..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :acquisition_cost, "Cost ($)", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :acquisition_cost, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :acquired_on, "Acquired On", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.date_field :acquired_on, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :comp_price, "Comp Price ($)", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :comp_price, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :comp_url, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.url_field :comp_url, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div>
+        <%= f.label :retail_price, "Retail Price ($)", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.number_field :retail_price, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Images -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Images</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= f.label :front_image, "Front Image", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.file_field :front_image, accept: "image/*", class: "mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+      </div>
+      <div>
+        <%= f.label :back_image, "Back Image", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.file_field :back_image, accept: "image/*", class: "mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+      </div>
+      <div>
+        <%= f.label :measurement_images, "Measurement Images", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.file_field :measurement_images, accept: "image/*", multiple: true, class: "mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+      </div>
+      <div>
+        <%= f.label :tag_images, "Tag Images", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.file_field :tag_images, accept: "image/*", multiple: true, class: "mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status & Meta -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Status & Other</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <%= f.label :status, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :status, Item.statuses.keys.map { |k| [k.humanize, k] }, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div class="flex items-center pt-6">
+        <%= f.check_box :listed_with_vendoo, class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 mr-2" %>
+        <%= f.label :listed_with_vendoo, "Listed with Vendoo", class: "text-sm font-medium text-gray-700" %>
+      </div>
+      <div>
+        <%= f.label :tags, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :tags, placeholder: "comma-separated tags", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+      <div class="md:col-span-3">
+        <%= f.label :notes, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_area :notes, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end gap-3">
+    <%= link_to "Cancel", items_path, class: "text-gray-600 px-4 py-2 text-sm hover:text-gray-900" %>
+    <%= f.submit class: "bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 cursor-pointer" %>
+  </div>
+<% end %>

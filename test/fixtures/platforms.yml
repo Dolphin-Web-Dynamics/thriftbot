@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Depop
+  pricing_tier: lower
+  fee_percentage: 10.0
+  url_template: ""
+  active: true
+
+two:
+  name: Poshmark
+  pricing_tier: mid
+  fee_percentage: 20.0
+  url_template: ""
+  active: true

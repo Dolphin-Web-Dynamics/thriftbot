@@ -1,0 +1,80 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Items</h1>
+  <%= link_to "New Item", new_item_path, class: "bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700" %>
+</div>
+
+<!-- Filters -->
+<div class="bg-white rounded-lg shadow p-4 mb-6">
+  <%= search_form_for @q, class: "flex flex-wrap gap-4 items-end" do |f| %>
+    <div>
+      <%= f.label :sku_or_general_title_or_description_cont, "Search", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.search_field :sku_or_general_title_or_description_cont, placeholder: "SKU, title, description...", class: "mt-1 block w-64 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+    <div>
+      <%= f.label :status_eq, "Status", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :status_eq, Item.statuses.map { |k, v| [k.humanize, v] }, { include_blank: "All" }, class: "mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+    <div>
+      <%= f.label :brand_id_eq, "Brand", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :brand_id_eq, Brand.order(:name).pluck(:name, :id), { include_blank: "All" }, class: "mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+    <div>
+      <%= f.label :source_id_eq, "Source", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :source_id_eq, Source.order(:name).pluck(:name, :id), { include_blank: "All" }, class: "mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+    <div class="flex gap-2">
+      <%= f.submit "Filter", class: "bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 cursor-pointer" %>
+      <%= link_to "Clear", items_path, class: "text-gray-600 px-4 py-2 text-sm hover:text-gray-900" %>
+    </div>
+  <% end %>
+</div>
+
+<!-- Items Table -->
+<div class="bg-white rounded-lg shadow overflow-hidden">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Brand</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cost</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Listings</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% @items.each do |item| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4">
+            <div class="flex items-center">
+              <% if item.front_image.attached? %>
+                <%= image_tag item.front_image.variant(resize_to_fill: [48, 48]), class: "w-12 h-12 rounded object-cover mr-3" %>
+              <% else %>
+                <div class="w-12 h-12 rounded bg-gray-200 mr-3 flex items-center justify-center text-gray-400 text-xs">No img</div>
+              <% end %>
+              <div>
+                <%= link_to item.sku, item_path(item), class: "font-medium text-indigo-600 hover:underline" %>
+                <p class="text-sm text-gray-500 truncate max-w-xs"><%= item.general_title %></p>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-700"><%= item.brand&.name %></td>
+          <td class="px-6 py-4 text-sm text-gray-700"><%= item.source&.name %></td>
+          <td class="px-6 py-4 text-sm text-gray-700"><%= currency(item.acquisition_cost) %></td>
+          <td class="px-6 py-4 text-sm text-gray-700"><%= item.listings.active.count %> active</td>
+          <td class="px-6 py-4"><%= status_badge(item.status) %></td>
+          <td class="px-6 py-4 text-right">
+            <%= link_to "View", item_path(item), class: "text-indigo-600 hover:underline text-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if @pagy.pages > 1 %>
+  <div class="mt-4">
+    <%== pagy_nav(@pagy) %>
+  </div>
+<% end %>

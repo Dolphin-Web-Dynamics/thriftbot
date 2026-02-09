@@ -1,0 +1,3 @@
+admin:
+  email_address: admin@thriftbot.local
+  password_digest: <%= BCrypt::Password.create("password") %>

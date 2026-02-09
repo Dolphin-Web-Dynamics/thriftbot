@@ -1,0 +1,79 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sku: SKU-001
+  general_title: Nike T-Shirt
+  shopify_title: Nike T-Shirt
+  description: A nice t-shirt
+  chatgpt_description: A nice t-shirt
+  unified_description: A nice t-shirt
+  brand: one
+  category: one
+  subcategory: one
+  size: M
+  product_model: ""
+  colors: Black
+  materials: Cotton
+  body_fit: Regular
+  fit: Regular
+  item_type: Clothing
+  product_type: T-Shirt
+  condition: 1
+  occasion: Casual
+  target_gender: 1
+  weight: 0.5
+  imperfections: ""
+  notes: ""
+  source: one
+  acquisition_cost: 5.99
+  acquired_on: 2026-02-08
+  comp_price: 25.99
+  comp_url: ""
+  retail_price: 45.99
+  retail_url: ""
+  status: 1
+  status_changed_at: 2026-02-08 14:48:05
+  listed_with_vendoo: false
+  canva_url: ""
+  picture_label_url: ""
+  image_url: ""
+  tags: nike,tshirt
+
+two:
+  sku: SKU-002
+  general_title: Adidas Jeans
+  shopify_title: Adidas Jeans
+  description: A pair of jeans
+  chatgpt_description: A pair of jeans
+  unified_description: A pair of jeans
+  brand: two
+  category: two
+  subcategory: two
+  size: L
+  product_model: ""
+  colors: Blue
+  materials: Denim
+  body_fit: Slim
+  fit: Slim
+  item_type: Clothing
+  product_type: Jeans
+  condition: 1
+  occasion: Casual
+  target_gender: 1
+  weight: 1.0
+  imperfections: ""
+  notes: ""
+  source: two
+  acquisition_cost: 8.99
+  acquired_on: 2026-02-08
+  comp_price: 35.99
+  comp_url: ""
+  retail_price: 65.99
+  retail_url: ""
+  status: 1
+  status_changed_at: 2026-02-08 14:48:05
+  listed_with_vendoo: false
+  canva_url: ""
+  picture_label_url: ""
+  image_url: ""
+  tags: adidas,jeans

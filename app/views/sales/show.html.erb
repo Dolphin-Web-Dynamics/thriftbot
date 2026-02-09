@@ -1,0 +1,44 @@
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Sale: <%= @sale.item.sku %></h1>
+
+<div class="bg-white rounded-lg shadow p-6 max-w-lg">
+  <dl class="space-y-4">
+    <div class="flex justify-between">
+      <dt class="text-sm text-gray-500">Item</dt>
+      <dd><%= link_to @sale.item.sku, item_path(@sale.item), class: "text-indigo-600 hover:underline" %></dd>
+    </div>
+    <div class="flex justify-between">
+      <dt class="text-sm text-gray-500">Platform</dt>
+      <dd class="text-sm font-medium"><%= @sale.platform.name %></dd>
+    </div>
+    <div class="flex justify-between">
+      <dt class="text-sm text-gray-500">Sold Price</dt>
+      <dd class="text-sm font-medium"><%= currency(@sale.sold_price) %></dd>
+    </div>
+    <div class="flex justify-between">
+      <dt class="text-sm text-gray-500">Revenue Received</dt>
+      <dd class="text-sm font-medium text-green-600"><%= currency(@sale.revenue_received) %></dd>
+    </div>
+    <div class="flex justify-between">
+      <dt class="text-sm text-gray-500">Platform Fees</dt>
+      <dd class="text-sm"><%= currency(@sale.platform_fees) %></dd>
+    </div>
+    <div class="flex justify-between">
+      <dt class="text-sm text-gray-500">Shipping Cost</dt>
+      <dd class="text-sm"><%= currency(@sale.shipping_cost) %></dd>
+    </div>
+    <div class="flex justify-between">
+      <dt class="text-sm text-gray-500">Acquisition Cost</dt>
+      <dd class="text-sm"><%= currency(@sale.item.acquisition_cost) %></dd>
+    </div>
+    <div class="flex justify-between border-t pt-3">
+      <dt class="text-sm font-medium text-gray-700">Profit</dt>
+      <dd class="text-sm font-bold <%= @sale.profit && @sale.profit > 0 ? 'text-green-600' : 'text-red-600' %>">
+        <%= @sale.profit ? currency(@sale.profit) : "-" %>
+      </dd>
+    </div>
+    <div class="flex justify-between">
+      <dt class="text-sm text-gray-500">Date</dt>
+      <dd class="text-sm"><%= @sale.sold_on %></dd>
+    </div>
+  </dl>
+</div>

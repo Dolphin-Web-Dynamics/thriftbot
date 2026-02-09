@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: one
+  platform: one
+  listing: one
+  sold_price: 9.99
+  revenue_received: 9.99
+  platform_fees: 9.99
+  shipping_cost: 9.99
+  sold_on: 2026-02-08
+  notes: MyText
+
+two:
+  item: two
+  platform: two
+  listing: two
+  sold_price: 9.99
+  revenue_received: 9.99
+  platform_fees: 9.99
+  shipping_cost: 9.99
+  sold_on: 2026-02-08
+  notes: MyText

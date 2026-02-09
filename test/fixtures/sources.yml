@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Thrift Store
+  source_type: retail
+
+two:
+  name: Goodwill
+  source_type: retail
