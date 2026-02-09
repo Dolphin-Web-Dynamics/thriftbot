@@ -1,12 +1,13 @@
 name: Auto-merge
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   enable-auto-merge:
     runs-on: ubuntu-latest
+    if: github.event.review.state == 'approved'
     permissions:
       pull-requests: write
       contents: write

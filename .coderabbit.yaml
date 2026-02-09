@@ -1,0 +1,16 @@
+language: en-US
+reviews:
+  profile: chill
+  auto_review:
+    enabled: true
+    drafts: false
+  request_changes_workflow: true
+  path_instructions:
+    - path: "app/models/**"
+      instructions: "Check for proper validations, associations, and scopes."
+    - path: "app/controllers/**"
+      instructions: "Ensure strong parameters and proper authorization."
+    - path: "db/migrate/**"
+      instructions: "Check for reversible migrations and proper indexing."
+chat:
+  auto_reply: true
