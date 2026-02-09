@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
     @total_invested = Item.in_stock.sum(:acquisition_cost)
     @total_revenue = Sale.sum(:revenue_received)
     @total_sales_count = Sale.count
+    @total_gross_profit = Sale.joins(:item).sum("sales.revenue_received - COALESCE(items.acquisition_cost, 0)")
     @items_listed = Item.listed.count
     @items_drafted = Item.drafted.count
 
@@ -13,6 +14,9 @@ class DashboardController < ApplicationController
     # Chart data
     @sales_by_platform = Sale.joins(:platform).group("platforms.name").sum(:revenue_received)
     @sales_by_month = Sale.group_by_month(:sold_on, last: 12).sum(:revenue_received)
+    @gross_profit_by_month = Sale.joins(:item)
+      .group_by_month(:sold_on, last: 12)
+      .sum("sales.revenue_received - COALESCE(items.acquisition_cost, 0)")
     @items_by_status = Item.group(:status).count
   end
 end

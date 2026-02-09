@@ -3,35 +3,43 @@
 </div>
 
 <!-- KPI Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-  <div class="bg-white rounded-lg shadow p-6">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+  <div class="bg-white rounded-lg shadow p-5">
     <p class="text-sm font-medium text-gray-500">Items In Stock</p>
-    <p class="text-3xl font-bold text-gray-900"><%= @total_items %></p>
-    <p class="text-sm text-gray-400"><%= @items_drafted %> drafted, <%= @items_listed %> listed</p>
+    <p class="text-2xl font-bold text-gray-900"><%= @total_items %></p>
+    <p class="text-xs text-gray-400"><%= @items_drafted %> drafted, <%= @items_listed %> listed</p>
   </div>
 
-  <div class="bg-white rounded-lg shadow p-6">
+  <div class="bg-white rounded-lg shadow p-5">
     <p class="text-sm font-medium text-gray-500">Total Invested</p>
-    <p class="text-3xl font-bold text-gray-900"><%= currency(@total_invested) %></p>
-    <p class="text-sm text-gray-400">In current inventory</p>
+    <p class="text-2xl font-bold text-gray-900"><%= currency(@total_invested) %></p>
+    <p class="text-xs text-gray-400">In current inventory</p>
   </div>
 
-  <div class="bg-white rounded-lg shadow p-6">
+  <div class="bg-white rounded-lg shadow p-5">
     <p class="text-sm font-medium text-gray-500">Total Revenue</p>
-    <p class="text-3xl font-bold text-green-600"><%= currency(@total_revenue) %></p>
-    <p class="text-sm text-gray-400"><%= @total_sales_count %> items sold</p>
+    <p class="text-2xl font-bold text-green-600"><%= currency(@total_revenue) %></p>
+    <p class="text-xs text-gray-400"><%= @total_sales_count %> items sold</p>
   </div>
 
-  <div class="bg-white rounded-lg shadow p-6">
+  <div class="bg-white rounded-lg shadow p-5">
     <p class="text-sm font-medium text-gray-500">Avg Revenue/Sale</p>
-    <p class="text-3xl font-bold text-gray-900">
+    <p class="text-2xl font-bold text-gray-900">
       <%= @total_sales_count > 0 ? currency(@total_revenue / @total_sales_count) : "-" %>
     </p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-5">
+    <p class="text-sm font-medium text-gray-500">Avg Gross Margin</p>
+    <p class="text-2xl font-bold text-green-600">
+      <%= @total_revenue > 0 ? number_to_percentage(@total_gross_profit / @total_revenue * 100, precision: 1) : "-" %>
+    </p>
+    <p class="text-xs text-gray-400"><%= currency(@total_sales_count > 0 ? @total_gross_profit / @total_sales_count : 0) %>/sale</p>
   </div>
 </div>
 
 <!-- Charts -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
   <div class="bg-white rounded-lg shadow p-6">
     <h2 class="text-lg font-semibold text-gray-900 mb-4">Revenue by Platform</h2>
     <%= bar_chart @sales_by_platform, prefix: "$" %>
@@ -40,6 +48,11 @@
   <div class="bg-white rounded-lg shadow p-6">
     <h2 class="text-lg font-semibold text-gray-900 mb-4">Monthly Revenue</h2>
     <%= line_chart @sales_by_month, prefix: "$" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Monthly Gross Profit</h2>
+    <%= line_chart @gross_profit_by_month, prefix: "$" %>
   </div>
 </div>
 
