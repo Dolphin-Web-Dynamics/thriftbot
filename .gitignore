@@ -37,6 +37,10 @@
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
+# Vendoo automation
+/vendoo-automation/node_modules/
+/vendoo-automation/.env
+
 # ClaudeOnRails
 .claude-on-rails/sessions/
 .claude-swarm/
