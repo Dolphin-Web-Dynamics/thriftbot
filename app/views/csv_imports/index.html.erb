@@ -41,7 +41,7 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
               <% if csv_import.error_log.present? %>
-                <button onclick="document.getElementById('errors-<%= csv_import.id %>').classList.toggle('hidden')" class="text-accent-foreground hover:text-foreground mr-3">
+                <button data-controller="toggle" data-toggle-target-value="errors-<%= csv_import.id %>" data-action="toggle#toggle" aria-controls="errors-<%= csv_import.id %>" aria-expanded="false" class="text-accent-foreground hover:text-foreground mr-3">
                   View Errors
                 </button>
               <% end %>
@@ -90,14 +90,14 @@
         </div>
         <div class="flex items-center gap-3 pt-2 border-t border-border">
           <% if csv_import.error_log.present? %>
-            <button onclick="this.closest('.bg-card').querySelector('.error-log').classList.toggle('hidden')" class="text-accent-foreground hover:text-foreground text-sm font-medium">
+            <button data-controller="toggle" data-toggle-target-value="mobile-errors-<%= csv_import.id %>" data-action="toggle#toggle" aria-controls="mobile-errors-<%= csv_import.id %>" aria-expanded="false" class="text-accent-foreground hover:text-foreground text-sm font-medium">
               View Errors
             </button>
           <% end %>
           <%= button_to "Delete", csv_import_path(csv_import), method: :delete, class: "text-destructive hover:opacity-80 text-sm font-medium", data: { turbo_confirm: "This will delete the import and ALL #{csv_import.records_count} items (including their listings and sales). Are you sure?" } %>
         </div>
         <% if csv_import.error_log.present? %>
-          <div class="error-log hidden mt-3 bg-destructive/5 rounded-lg p-3">
+          <div id="mobile-errors-<%= csv_import.id %>" class="error-log hidden mt-3 bg-destructive/5 rounded-lg p-3">
             <pre class="text-xs text-destructive whitespace-pre-wrap overflow-x-auto"><%= csv_import.error_log %></pre>
           </div>
         <% end %>
