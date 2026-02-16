@@ -43,7 +43,7 @@
             </div>
             <!-- Mobile hamburger button -->
             <div class="flex items-center md:hidden">
-              <button type="button" data-action="mobile-nav#toggle" class="inline-flex items-center justify-center p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
+              <button type="button" data-action="mobile-nav#toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu" class="inline-flex items-center justify-center p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
                 <svg data-mobile-nav-target="openIcon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
@@ -56,7 +56,7 @@
         </div>
 
         <!-- Mobile menu -->
-        <div data-mobile-nav-target="menu" class="hidden md:hidden border-t border-border">
+        <div id="mobile-menu" data-mobile-nav-target="menu" class="hidden md:hidden border-t border-border">
           <div class="px-4 pt-3 pb-4 space-y-1">
             <%= link_to "Dashboard", dashboard_path, class: "block px-3 py-2.5 rounded-lg text-base font-medium transition-colors #{controller_name == 'dashboard' ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:bg-accent'}" %>
             <%= link_to "Items", items_path, class: "block px-3 py-2.5 rounded-lg text-base font-medium transition-colors #{controller_name == 'items' ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:bg-accent'}" %>
@@ -79,7 +79,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4" data-controller="flash">
         <div class="bg-success/10 border border-success/20 text-success px-4 py-3 rounded-lg flex items-center justify-between" role="alert">
           <span class="text-sm font-medium"><%= notice %></span>
-          <button type="button" data-action="flash#dismiss" class="ml-4 text-success/60 hover:text-success">
+          <button type="button" data-action="flash#dismiss" aria-label="Dismiss notification" class="ml-4 text-success/60 hover:text-success">
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -92,7 +92,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4" data-controller="flash">
         <div class="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg flex items-center justify-between" role="alert">
           <span class="text-sm font-medium"><%= alert %></span>
-          <button type="button" data-action="flash#dismiss" class="ml-4 text-destructive/60 hover:text-destructive">
+          <button type="button" data-action="flash#dismiss" aria-label="Dismiss notification" class="ml-4 text-destructive/60 hover:text-destructive">
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>

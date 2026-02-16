@@ -6,11 +6,14 @@ class ItemsController < ApplicationController
     @q.sorts = "created_at desc" if @q.sorts.empty?
     @items = @q.result.includes(:brand, :source, :category, :listings)
     @pagy, @items = pagy(@items, limit: 25)
+    @brands_for_select = Brand.order(:name).pluck(:name, :id)
+    @sources_for_select = Source.order(:name).pluck(:name, :id)
   end
 
   def show
     @listings = @item.listings.includes(:platform)
     @sale = @item.sale
+    @platforms_for_select = Platform.active.order(:name).pluck(:name, :id)
   end
 
   def new

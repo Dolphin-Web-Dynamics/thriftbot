@@ -33,6 +33,10 @@
   --input: oklch(0.87 0.01 264);
   --ring: oklch(0.48 0.18 264);
 
+  --primary-hover: oklch(0.43 0.18 264);
+  --secondary-hover: oklch(0.93 0.01 264);
+  --destructive-hover: oklch(0.52 0.22 27);
+
   --radius: 0.5rem;
 }
 
@@ -68,7 +72,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --radius-radius: var(--radius);
+  --radius-default: var(--radius);
 }
 
 /* === Base Styles === */
@@ -149,21 +153,21 @@
     color: var(--primary-foreground);
   }
   .btn-primary:hover {
-    background-color: oklch(0.43 0.18 264);
+    background-color: var(--primary-hover);
   }
   .btn-secondary {
     background-color: var(--secondary);
     color: var(--secondary-foreground);
   }
   .btn-secondary:hover {
-    background-color: oklch(0.93 0.01 264);
+    background-color: var(--secondary-hover);
   }
   .btn-destructive {
     background-color: var(--destructive);
     color: var(--destructive-foreground);
   }
   .btn-destructive:hover {
-    background-color: oklch(0.52 0.22 27);
+    background-color: var(--destructive-hover);
   }
   .btn-ghost {
     background-color: transparent;
@@ -197,7 +201,7 @@
     transition: all 150ms ease;
   }
 
-  .pagy a:hover:not([aria-disabled="true"]):not(.current) {
+  .pagy a:hover:not([aria-disabled="true"], .current) {
     background-color: var(--accent);
     color: var(--accent-foreground);
   }
