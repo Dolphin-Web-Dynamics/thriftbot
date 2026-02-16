@@ -1,67 +1,111 @@
 <div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl font-bold text-gray-900">CSV Imports</h1>
-  <%= link_to "New Import", new_csv_import_path, class: "bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700" %>
+  <h1 class="text-2xl font-bold text-foreground">CSV Imports</h1>
+  <%= link_to "New Import", new_csv_import_path, class: "btn btn-primary" %>
 </div>
 
-<div class="bg-white shadow rounded-lg overflow-hidden">
-  <table class="min-w-full divide-y divide-gray-200">
-    <thead class="bg-gray-50">
+<!-- Imports Table (desktop) -->
+<div class="hidden md:block bg-card border border-border rounded-lg overflow-hidden">
+  <table class="min-w-full divide-y divide-border">
+    <thead class="bg-muted/50">
       <tr>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Filename</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Records</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imported At</th>
-        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Filename</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Records</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Imported At</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">Actions</th>
       </tr>
     </thead>
-    <tbody class="bg-white divide-y divide-gray-200">
+    <tbody class="divide-y divide-border">
       <% if @csv_imports.any? %>
         <% @csv_imports.each do |csv_import| %>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+          <tr class="hover:bg-muted/30 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
               <%= csv_import.filename %>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
               <%= csv_import.records_count %>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <% status_classes = {
-                "pending" => "bg-yellow-100 text-yellow-800",
-                "processing" => "bg-blue-100 text-blue-800",
-                "completed" => "bg-green-100 text-green-800",
-                "failed" => "bg-red-100 text-red-800"
+              <% status_styles = {
+                "pending" => "bg-accent text-accent-foreground",
+                "processing" => "bg-primary/10 text-primary",
+                "completed" => "bg-success/10 text-success",
+                "failed" => "bg-destructive/10 text-destructive"
               } %>
-              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <%= status_classes[csv_import.status] %>">
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <%= status_styles[csv_import.status] %>">
                 <%= csv_import.status.capitalize %>
               </span>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
               <%= csv_import.created_at.strftime("%b %d, %Y %I:%M %p") %>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
               <% if csv_import.error_log.present? %>
-                <button onclick="document.getElementById('errors-<%= csv_import.id %>').classList.toggle('hidden')" class="text-yellow-600 hover:text-yellow-900 mr-3">
+                <button onclick="document.getElementById('errors-<%= csv_import.id %>').classList.toggle('hidden')" class="text-accent-foreground hover:text-foreground mr-3">
                   View Errors
                 </button>
               <% end %>
-              <%= button_to "Delete Import", csv_import_path(csv_import), method: :delete, class: "text-red-600 hover:text-red-900 font-medium", data: { turbo_confirm: "This will delete the import and ALL #{csv_import.records_count} items (including their listings and sales). Are you sure?" } %>
+              <%= button_to "Delete Import", csv_import_path(csv_import), method: :delete, class: "text-destructive hover:opacity-80 font-medium", data: { turbo_confirm: "This will delete the import and ALL #{csv_import.records_count} items (including their listings and sales). Are you sure?" } %>
             </td>
           </tr>
           <% if csv_import.error_log.present? %>
             <tr id="errors-<%= csv_import.id %>" class="hidden">
-              <td colspan="5" class="px-6 py-4 bg-red-50">
-                <pre class="text-xs text-red-700 whitespace-pre-wrap"><%= csv_import.error_log %></pre>
+              <td colspan="5" class="px-6 py-4 bg-destructive/5">
+                <pre class="text-xs text-destructive whitespace-pre-wrap"><%= csv_import.error_log %></pre>
               </td>
             </tr>
           <% end %>
         <% end %>
       <% else %>
         <tr>
-          <td colspan="5" class="px-6 py-8 text-center text-sm text-gray-500">
-            No imports yet. <%= link_to "Upload a CSV", new_csv_import_path, class: "text-indigo-600 hover:text-indigo-500 font-medium" %> to get started.
+          <td colspan="5" class="px-6 py-12 text-center text-sm text-muted-foreground">
+            No imports yet. <%= link_to "Upload a CSV", new_csv_import_path, class: "text-primary hover:underline font-medium" %> to get started.
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
+</div>
+
+<!-- Imports Cards (mobile) -->
+<div class="md:hidden space-y-3">
+  <% if @csv_imports.any? %>
+    <% @csv_imports.each do |csv_import| %>
+      <div class="bg-card border border-border rounded-lg p-4">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-foreground truncate flex-1 mr-2"><%= csv_import.filename %></p>
+          <% status_styles = {
+            "pending" => "bg-accent text-accent-foreground",
+            "processing" => "bg-primary/10 text-primary",
+            "completed" => "bg-success/10 text-success",
+            "failed" => "bg-destructive/10 text-destructive"
+          } %>
+          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shrink-0 <%= status_styles[csv_import.status] %>">
+            <%= csv_import.status.capitalize %>
+          </span>
+        </div>
+        <div class="flex items-center justify-between text-xs text-muted-foreground mb-3">
+          <span><%= csv_import.records_count %> records</span>
+          <span><%= csv_import.created_at.strftime("%b %d, %Y") %></span>
+        </div>
+        <div class="flex items-center gap-3 pt-2 border-t border-border">
+          <% if csv_import.error_log.present? %>
+            <button onclick="this.closest('.bg-card').querySelector('.error-log').classList.toggle('hidden')" class="text-accent-foreground hover:text-foreground text-sm font-medium">
+              View Errors
+            </button>
+          <% end %>
+          <%= button_to "Delete", csv_import_path(csv_import), method: :delete, class: "text-destructive hover:opacity-80 text-sm font-medium", data: { turbo_confirm: "This will delete the import and ALL #{csv_import.records_count} items (including their listings and sales). Are you sure?" } %>
+        </div>
+        <% if csv_import.error_log.present? %>
+          <div class="error-log hidden mt-3 bg-destructive/5 rounded-lg p-3">
+            <pre class="text-xs text-destructive whitespace-pre-wrap overflow-x-auto"><%= csv_import.error_log %></pre>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="bg-card border border-border rounded-lg p-8 text-center text-sm text-muted-foreground">
+      No imports yet. <%= link_to "Upload a CSV", new_csv_import_path, class: "text-primary hover:underline font-medium" %> to get started.
+    </div>
+  <% end %>
 </div>

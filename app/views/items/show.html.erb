@@ -1,14 +1,14 @@
 <%= turbo_stream_from @item, "ai_content" %>
 
-<div class="flex justify-between items-start mb-6">
+<div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
   <div>
-    <h1 class="text-2xl font-bold text-gray-900"><%= @item.sku %></h1>
-    <p class="text-gray-500"><%= @item.general_title %></p>
+    <h1 class="text-2xl font-bold text-foreground"><%= @item.sku %></h1>
+    <p class="text-muted-foreground"><%= @item.general_title %></p>
   </div>
-  <div class="flex gap-2">
-    <%= link_to "Edit", edit_item_path(@item), class: "bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200" %>
-    <%= button_to "Generate AI Content", generate_ai_content_item_path(@item), method: :post, class: "bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700" %>
-    <%= link_to "Add Listing", new_item_listing_path(@item), class: "bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700" %>
+  <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+    <%= link_to "Edit", edit_item_path(@item), class: "flex-1 sm:flex-none text-center btn btn-secondary" %>
+    <%= button_to "Generate AI Content", generate_ai_content_item_path(@item), method: :post, class: "flex-1 sm:flex-none text-center bg-accent text-accent-foreground px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-colors cursor-pointer" %>
+    <%= link_to "Add Listing", new_item_listing_path(@item), class: "flex-1 sm:flex-none text-center btn btn-primary" %>
   </div>
 </div>
 
@@ -16,43 +16,43 @@
   <!-- Main Info -->
   <div class="lg:col-span-2 space-y-6">
     <!-- Images -->
-    <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-lg font-semibold text-gray-900 mb-4">Images</h2>
-      <div class="flex flex-wrap gap-4">
+    <div class="bg-card border border-border rounded-lg p-4 sm:p-6">
+      <h2 class="text-lg font-semibold text-card-foreground mb-4">Images</h2>
+      <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-4">
         <% if @item.front_image.attached? %>
           <div class="text-center">
-            <%= image_tag @item.front_image.variant(resize_to_fill: [200, 200]), class: "w-48 h-48 rounded-lg object-cover" %>
-            <p class="text-xs text-gray-500 mt-1">Front</p>
+            <%= image_tag @item.front_image.variant(resize_to_fill: [200, 200]), class: "w-full sm:w-48 aspect-square rounded-lg object-cover" %>
+            <p class="text-xs text-muted-foreground mt-1">Front</p>
           </div>
         <% end %>
         <% if @item.back_image.attached? %>
           <div class="text-center">
-            <%= image_tag @item.back_image.variant(resize_to_fill: [200, 200]), class: "w-48 h-48 rounded-lg object-cover" %>
-            <p class="text-xs text-gray-500 mt-1">Back</p>
+            <%= image_tag @item.back_image.variant(resize_to_fill: [200, 200]), class: "w-full sm:w-48 aspect-square rounded-lg object-cover" %>
+            <p class="text-xs text-muted-foreground mt-1">Back</p>
           </div>
         <% end %>
         <% @item.measurement_images.each do |img| %>
           <div class="text-center">
-            <%= image_tag img.variant(resize_to_fill: [200, 200]), class: "w-48 h-48 rounded-lg object-cover" %>
-            <p class="text-xs text-gray-500 mt-1">Measurement</p>
+            <%= image_tag img.variant(resize_to_fill: [200, 200]), class: "w-full sm:w-48 aspect-square rounded-lg object-cover" %>
+            <p class="text-xs text-muted-foreground mt-1">Measurement</p>
           </div>
         <% end %>
         <% @item.tag_images.each do |img| %>
           <div class="text-center">
-            <%= image_tag img.variant(resize_to_fill: [200, 200]), class: "w-48 h-48 rounded-lg object-cover" %>
-            <p class="text-xs text-gray-500 mt-1">Tag</p>
+            <%= image_tag img.variant(resize_to_fill: [200, 200]), class: "w-full sm:w-48 aspect-square rounded-lg object-cover" %>
+            <p class="text-xs text-muted-foreground mt-1">Tag</p>
           </div>
         <% end %>
         <% unless @item.front_image.attached? || @item.back_image.attached? %>
-          <p class="text-gray-400 text-sm">No images uploaded yet.</p>
+          <p class="text-muted-foreground text-sm col-span-2">No images uploaded yet.</p>
         <% end %>
       </div>
     </div>
 
     <!-- Details -->
-    <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-lg font-semibold text-gray-900 mb-4">Details</h2>
-      <dl class="grid grid-cols-2 gap-x-6 gap-y-4">
+    <div class="bg-card border border-border rounded-lg p-4 sm:p-6">
+      <h2 class="text-lg font-semibold text-card-foreground mb-4">Details</h2>
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
         <% [
           ["Brand", @item.brand&.name],
           ["Category", [@item.category&.name, @item.subcategory&.name].compact.join(" / ")],
@@ -71,8 +71,8 @@
         ].each do |label, value| %>
           <% if value.present? %>
             <div>
-              <dt class="text-sm font-medium text-gray-500"><%= label %></dt>
-              <dd class="text-sm text-gray-900"><%= value %></dd>
+              <dt class="text-sm font-medium text-muted-foreground"><%= label %></dt>
+              <dd class="text-sm text-card-foreground mt-0.5"><%= value %></dd>
             </div>
           <% end %>
         <% end %>
@@ -83,9 +83,9 @@
     <%= render "ai_content", item: @item %>
 
     <% if @item.notes.present? %>
-      <div class="bg-white rounded-lg shadow p-6">
-        <h2 class="text-lg font-semibold text-gray-900 mb-2">Notes</h2>
-        <p class="text-sm text-gray-700 whitespace-pre-wrap"><%= @item.notes %></p>
+      <div class="bg-card border border-border rounded-lg p-4 sm:p-6">
+        <h2 class="text-lg font-semibold text-card-foreground mb-2">Notes</h2>
+        <p class="text-sm text-foreground whitespace-pre-wrap"><%= @item.notes %></p>
       </div>
     <% end %>
   </div>
@@ -93,48 +93,48 @@
   <!-- Sidebar -->
   <div class="space-y-6">
     <!-- Status & Pricing -->
-    <div class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-lg font-semibold text-gray-900 mb-4">Status & Pricing</h2>
+    <div class="bg-card border border-border rounded-lg p-4 sm:p-6">
+      <h2 class="text-lg font-semibold text-card-foreground mb-4">Status & Pricing</h2>
       <div class="space-y-3">
         <div class="flex justify-between">
-          <span class="text-sm text-gray-500">Status</span>
+          <span class="text-sm text-muted-foreground">Status</span>
           <%= status_badge(@item.status) %>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm text-gray-500">Acquisition Cost</span>
+          <span class="text-sm text-muted-foreground">Acquisition Cost</span>
           <span class="text-sm font-medium"><%= currency(@item.acquisition_cost) %></span>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm text-gray-500">Comp Price</span>
+          <span class="text-sm text-muted-foreground">Comp Price</span>
           <span class="text-sm font-medium"><%= currency(@item.comp_price) %></span>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm text-gray-500">Retail Price</span>
+          <span class="text-sm text-muted-foreground">Retail Price</span>
           <span class="text-sm font-medium"><%= currency(@item.retail_price) %></span>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm text-gray-500">Source</span>
+          <span class="text-sm text-muted-foreground">Source</span>
           <span class="text-sm"><%= @item.source&.name || "-" %></span>
         </div>
         <% if @item.listed_with_vendoo? %>
           <div class="flex justify-between">
-            <span class="text-sm text-gray-500">Vendoo</span>
-            <span class="text-sm text-green-600 font-medium">Listed</span>
+            <span class="text-sm text-muted-foreground">Vendoo</span>
+            <span class="text-sm text-success font-medium">Listed</span>
           </div>
         <% end %>
       </div>
     </div>
 
     <!-- Listings -->
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="bg-card border border-border rounded-lg p-4 sm:p-6">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-900">Listings</h2>
-        <%= link_to "Add", new_item_listing_path(@item), class: "text-sm text-indigo-600 hover:underline" %>
+        <h2 class="text-lg font-semibold text-card-foreground">Listings</h2>
+        <%= link_to "Add", new_item_listing_path(@item), class: "text-sm text-primary hover:underline" %>
       </div>
       <% if @listings.any? %>
-        <div class="space-y-3">
+        <div class="divide-y divide-border">
           <% @listings.each do |listing| %>
-            <div class="flex justify-between items-center border-b border-gray-100 pb-2">
+            <div class="flex justify-between items-center py-3 first:pt-0 last:pb-0">
               <div>
                 <p class="text-sm font-medium"><%= listing.platform.name %></p>
                 <%= listing_status_badge(listing.status) %>
@@ -142,9 +142,9 @@
               <div class="text-right">
                 <p class="text-sm font-semibold"><%= currency(listing.asking_price) %></p>
                 <div class="flex gap-2 mt-1">
-                  <%= link_to "Edit", edit_item_listing_path(@item, listing), class: "text-xs text-indigo-600 hover:underline" %>
+                  <%= link_to "Edit", edit_item_listing_path(@item, listing), class: "text-xs text-primary hover:underline" %>
                   <% if listing.active? %>
-                    <%= button_to "Delist", delist_item_listing_path(@item, listing), method: :patch, class: "text-xs text-red-600 hover:underline" %>
+                    <%= button_to "Delist", delist_item_listing_path(@item, listing), method: :patch, class: "text-xs text-destructive hover:underline" %>
                   <% end %>
                 </div>
               </div>
@@ -152,77 +152,77 @@
           <% end %>
         </div>
       <% else %>
-        <p class="text-gray-400 text-sm">No listings yet.</p>
+        <p class="text-muted-foreground text-sm">No listings yet.</p>
       <% end %>
     </div>
 
     <!-- Sale Info / Record Sale -->
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="bg-card border border-border rounded-lg p-4 sm:p-6">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-900">Sale</h2>
+        <h2 class="text-lg font-semibold text-card-foreground">Sale</h2>
         <% if @sale %>
-          <%= link_to "Edit", edit_sale_path(@sale), class: "text-sm text-indigo-600 hover:underline" %>
+          <%= link_to "Edit", edit_sale_path(@sale), class: "text-sm text-primary hover:underline" %>
         <% end %>
       </div>
       <% if @sale %>
         <div class="space-y-3">
           <div class="flex justify-between">
-            <span class="text-sm text-gray-500">Platform</span>
+            <span class="text-sm text-muted-foreground">Platform</span>
             <span class="text-sm font-medium"><%= @sale.platform.name %></span>
           </div>
           <div class="flex justify-between">
-            <span class="text-sm text-gray-500">Sold Price</span>
+            <span class="text-sm text-muted-foreground">Sold Price</span>
             <span class="text-sm font-medium"><%= currency(@sale.sold_price) %></span>
           </div>
           <div class="flex justify-between">
-            <span class="text-sm text-gray-500">Revenue Received</span>
-            <span class="text-sm font-medium text-green-600"><%= currency(@sale.revenue_received) %></span>
+            <span class="text-sm text-muted-foreground">Revenue Received</span>
+            <span class="text-sm font-medium text-success"><%= currency(@sale.revenue_received) %></span>
           </div>
           <div class="flex justify-between">
-            <span class="text-sm text-gray-500">Platform Fees</span>
+            <span class="text-sm text-muted-foreground">Platform Fees</span>
             <span class="text-sm"><%= currency(@sale.platform_fees) %></span>
           </div>
           <div class="flex justify-between">
-            <span class="text-sm text-gray-500">Shipping Cost</span>
+            <span class="text-sm text-muted-foreground">Shipping Cost</span>
             <span class="text-sm"><%= currency(@sale.shipping_cost) %></span>
           </div>
           <div class="flex justify-between">
-            <span class="text-sm text-gray-500">Profit</span>
-            <span class="text-sm font-medium <%= @sale.profit && @sale.profit > 0 ? 'text-green-600' : 'text-red-600' %>">
+            <span class="text-sm text-muted-foreground">Profit</span>
+            <span class="text-sm font-medium <%= @sale.profit && @sale.profit > 0 ? 'text-success' : 'text-destructive' %>">
               <%= @sale.profit ? currency(@sale.profit) : "-" %>
             </span>
           </div>
           <div class="flex justify-between">
-            <span class="text-sm text-gray-500">Date</span>
+            <span class="text-sm text-muted-foreground">Date</span>
             <span class="text-sm"><%= @sale.sold_on %></span>
           </div>
           <% if @sale.notes.present? %>
-            <div class="border-t pt-3">
-              <span class="text-sm text-gray-500">Notes</span>
-              <p class="text-sm text-gray-700 mt-1"><%= @sale.notes %></p>
+            <div class="border-t border-border pt-3">
+              <span class="text-sm text-muted-foreground">Notes</span>
+              <p class="text-sm text-foreground mt-1"><%= @sale.notes %></p>
             </div>
           <% end %>
         </div>
       <% elsif !@item.sold? %>
-        <h3 class="text-sm font-medium text-gray-700 mb-3">Record a Sale</h3>
+        <h3 class="text-sm font-medium text-foreground mb-3">Record a Sale</h3>
         <%= form_with url: record_sale_item_path(@item), method: :post, class: "space-y-3" do |f| %>
           <div>
-            <%= f.label :platform_id, "Platform", class: "block text-sm text-gray-600" %>
-            <%= f.select :platform_id, Platform.active.order(:name).pluck(:name, :id), { prompt: "Select..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+            <%= f.label :platform_id, "Platform", class: "block text-sm text-muted-foreground" %>
+            <%= f.select :platform_id, Platform.active.order(:name).pluck(:name, :id), { prompt: "Select..." }, class: "input mt-1" %>
           </div>
           <div>
-            <%= f.label :sold_price, "Sold Price", class: "block text-sm text-gray-600" %>
-            <%= f.number_field :sold_price, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+            <%= f.label :sold_price, "Sold Price", class: "block text-sm text-muted-foreground" %>
+            <%= f.number_field :sold_price, step: 0.01, class: "input mt-1" %>
           </div>
           <div>
-            <%= f.label :revenue_received, "Revenue Received", class: "block text-sm text-gray-600" %>
-            <%= f.number_field :revenue_received, step: 0.01, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+            <%= f.label :revenue_received, "Revenue Received", class: "block text-sm text-muted-foreground" %>
+            <%= f.number_field :revenue_received, step: 0.01, class: "input mt-1" %>
           </div>
           <div>
-            <%= f.label :sold_on, "Date", class: "block text-sm text-gray-600" %>
-            <%= f.date_field :sold_on, value: Date.current, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm text-sm" %>
+            <%= f.label :sold_on, "Date", class: "block text-sm text-muted-foreground" %>
+            <%= f.date_field :sold_on, value: Date.current, class: "input mt-1" %>
           </div>
-          <%= f.submit "Record Sale", class: "w-full bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 cursor-pointer" %>
+          <%= f.submit "Record Sale", class: "w-full bg-success text-success-foreground px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 cursor-pointer transition-colors" %>
         <% end %>
       <% end %>
     </div>
