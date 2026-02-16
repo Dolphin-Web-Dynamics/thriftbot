@@ -20,7 +20,7 @@ class PasswordChangeTest < ActionDispatch::IntegrationTest
     }
     assert_redirected_to root_path
     follow_redirect!
-    assert_select ".bg-green-50", /Password updated successfully/
+    assert_select "div[role=alert]", /Password updated successfully/
 
     # Verify old password no longer works
     delete session_path
@@ -39,7 +39,7 @@ class PasswordChangeTest < ActionDispatch::IntegrationTest
       password_confirmation: "newpassword123"
     }
     assert_response :unprocessable_entity
-    assert_select ".bg-red-50", /Current password is incorrect/
+    assert_select "div[role=alert]", /Current password is incorrect/
   end
 
   test "reject change when confirmation does not match" do

@@ -1,43 +1,70 @@
-<div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl font-bold text-gray-900">Sales</h1>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+  <h1 class="text-2xl font-bold text-foreground">Sales</h1>
   <div class="flex gap-4 text-sm">
-    <div class="bg-green-50 text-green-700 px-4 py-2 rounded-lg">
+    <div class="bg-accent text-accent-foreground px-4 py-2 rounded-lg font-medium">
       Revenue: <strong><%= currency(@total_revenue) %></strong>
     </div>
   </div>
 </div>
 
-<div class="bg-white rounded-lg shadow overflow-hidden">
-  <table class="min-w-full divide-y divide-gray-200">
-    <thead class="bg-gray-50">
+<!-- Sales Table (desktop) -->
+<div class="hidden md:block bg-card border border-border rounded-lg overflow-hidden">
+  <table class="min-w-full divide-y divide-border">
+    <thead class="bg-muted/50">
       <tr>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Brand</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Platform</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sold Price</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenue</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profit</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Item</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Brand</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Platform</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Sold Price</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Revenue</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Profit</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Date</th>
       </tr>
     </thead>
-    <tbody class="bg-white divide-y divide-gray-200">
+    <tbody class="divide-y divide-border">
       <% @sales.each do |sale| %>
-        <tr class="hover:bg-gray-50">
+        <tr class="hover:bg-muted/30 transition-colors">
           <td class="px-6 py-4">
-            <%= link_to sale.item.sku, item_path(sale.item), class: "font-medium text-indigo-600 hover:underline" %>
+            <%= link_to sale.item.sku, item_path(sale.item), class: "font-medium text-primary hover:underline" %>
           </td>
-          <td class="px-6 py-4 text-sm text-gray-700"><%= sale.item.brand&.name %></td>
-          <td class="px-6 py-4 text-sm text-gray-700"><%= sale.platform.name %></td>
-          <td class="px-6 py-4 text-sm text-gray-700"><%= currency(sale.sold_price) %></td>
-          <td class="px-6 py-4 text-sm font-medium text-green-600"><%= currency(sale.revenue_received) %></td>
-          <td class="px-6 py-4 text-sm font-medium <%= sale.profit && sale.profit > 0 ? 'text-green-600' : 'text-red-600' %>">
+          <td class="px-6 py-4 text-sm text-foreground"><%= sale.item.brand&.name %></td>
+          <td class="px-6 py-4 text-sm text-foreground"><%= sale.platform.name %></td>
+          <td class="px-6 py-4 text-sm text-foreground"><%= currency(sale.sold_price) %></td>
+          <td class="px-6 py-4 text-sm font-medium text-success"><%= currency(sale.revenue_received) %></td>
+          <td class="px-6 py-4 text-sm font-medium <%= sale.profit && sale.profit > 0 ? 'text-success' : 'text-destructive' %>">
             <%= sale.profit ? currency(sale.profit) : "-" %>
           </td>
-          <td class="px-6 py-4 text-sm text-gray-500"><%= sale.sold_on %></td>
+          <td class="px-6 py-4 text-sm text-muted-foreground"><%= sale.sold_on %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
+</div>
+
+<!-- Sales Cards (mobile) -->
+<div class="md:hidden space-y-3">
+  <% @sales.each do |sale| %>
+    <%= link_to item_path(sale.item), class: "block bg-card border border-border rounded-lg p-4 active:bg-muted/50 transition-colors" do %>
+      <div class="flex items-center justify-between mb-2">
+        <div>
+          <span class="font-medium text-primary"><%= sale.item.sku %></span>
+          <span class="text-sm text-muted-foreground ml-2"><%= sale.item.brand&.name %></span>
+        </div>
+        <span class="text-xs text-muted-foreground"><%= sale.sold_on %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-muted-foreground"><%= sale.platform.name %></span>
+        <div class="text-right">
+          <span class="text-sm font-medium text-success"><%= currency(sale.revenue_received) %></span>
+          <% if sale.profit %>
+            <span class="text-xs ml-2 <%= sale.profit > 0 ? 'text-success' : 'text-destructive' %>">
+              (<%= sale.profit > 0 ? '+' : '' %><%= currency(sale.profit) %>)
+            </span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
 </div>
 
 <% if @pagy.pages > 1 %>

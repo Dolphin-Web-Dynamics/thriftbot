@@ -1,76 +1,122 @@
 <div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl font-bold text-gray-900">Items</h1>
-  <%= link_to "New Item", new_item_path, class: "bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700" %>
+  <h1 class="text-2xl font-bold text-foreground">Items</h1>
+  <%= link_to "New Item", new_item_path, class: "btn btn-primary" %>
 </div>
 
 <!-- Filters -->
-<div class="bg-white rounded-lg shadow p-4 mb-6">
-  <%= search_form_for @q, class: "flex flex-wrap gap-4 items-end" do |f| %>
-    <div>
-      <%= f.label :sku_or_general_title_or_description_cont, "Search", class: "block text-sm font-medium text-gray-700" %>
-      <%= f.search_field :sku_or_general_title_or_description_cont, placeholder: "SKU, title, description...", class: "mt-1 block w-64 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+<div class="bg-card border border-border rounded-lg p-4 mb-6">
+  <%= search_form_for @q, class: "space-y-3 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-4 sm:items-end", data: { controller: "auto-submit", turbo_action: "replace" } do |f| %>
+    <div class="w-full sm:w-auto">
+      <%= f.label :sku_or_general_title_or_description_cont, "Search", class: "block text-sm font-medium text-foreground" %>
+      <%= f.search_field :sku_or_general_title_or_description_cont, placeholder: "SKU, title, description...", class: "input mt-1 sm:w-64", data: { action: "input->auto-submit#submit" } %>
     </div>
-    <div>
-      <%= f.label :status_eq, "Status", class: "block text-sm font-medium text-gray-700" %>
-      <%= f.select :status_eq, Item.statuses.map { |k, v| [k.humanize, v] }, { include_blank: "All" }, class: "mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    <div class="grid grid-cols-3 gap-3 sm:contents">
+      <div>
+        <%= f.label :status_eq, "Status", class: "block text-sm font-medium text-foreground" %>
+        <%= f.select :status_eq, Item.statuses.map { |k, v| [k.humanize, v] }, { include_blank: "All" }, class: "input mt-1", data: { action: "change->auto-submit#submitNow" } %>
+      </div>
+      <div>
+        <%= f.label :brand_id_eq, "Brand", class: "block text-sm font-medium text-foreground" %>
+        <%= f.select :brand_id_eq, Brand.order(:name).pluck(:name, :id), { include_blank: "All" }, class: "input mt-1", data: { action: "change->auto-submit#submitNow" } %>
+      </div>
+      <div>
+        <%= f.label :source_id_eq, "Source", class: "block text-sm font-medium text-foreground" %>
+        <%= f.select :source_id_eq, Source.order(:name).pluck(:name, :id), { include_blank: "All" }, class: "input mt-1", data: { action: "change->auto-submit#submitNow" } %>
+      </div>
     </div>
-    <div>
-      <%= f.label :brand_id_eq, "Brand", class: "block text-sm font-medium text-gray-700" %>
-      <%= f.select :brand_id_eq, Brand.order(:name).pluck(:name, :id), { include_blank: "All" }, class: "mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
-    </div>
-    <div>
-      <%= f.label :source_id_eq, "Source", class: "block text-sm font-medium text-gray-700" %>
-      <%= f.select :source_id_eq, Source.order(:name).pluck(:name, :id), { include_blank: "All" }, class: "mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
-    </div>
-    <div class="flex gap-2">
-      <%= f.submit "Filter", class: "bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 cursor-pointer" %>
-      <%= link_to "Clear", items_path, class: "text-gray-600 px-4 py-2 text-sm hover:text-gray-900" %>
+    <div class="flex items-end">
+      <%= link_to "Clear", items_path, class: "text-muted-foreground hover:text-foreground text-sm px-3 py-2 transition-colors" %>
     </div>
   <% end %>
 </div>
 
-<!-- Items Table -->
-<div class="bg-white rounded-lg shadow overflow-hidden">
-  <table class="min-w-full divide-y divide-gray-200">
-    <thead class="bg-gray-50">
+<!-- Items Table (desktop) -->
+<div class="hidden md:block bg-card border border-border rounded-lg overflow-hidden">
+  <table class="min-w-full divide-y divide-border">
+    <thead class="bg-muted/50">
       <tr>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Brand</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cost</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Listings</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Item</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Brand</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Source</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Cost</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Listings</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider"></th>
       </tr>
     </thead>
-    <tbody class="bg-white divide-y divide-gray-200">
-      <% @items.each do |item| %>
-        <tr class="hover:bg-gray-50">
-          <td class="px-6 py-4">
-            <div class="flex items-center">
-              <% if item.front_image.attached? %>
-                <%= image_tag item.front_image.variant(resize_to_fill: [48, 48]), class: "w-12 h-12 rounded object-cover mr-3" %>
-              <% else %>
-                <div class="w-12 h-12 rounded bg-gray-200 mr-3 flex items-center justify-center text-gray-400 text-xs">No img</div>
-              <% end %>
-              <div>
-                <%= link_to item.sku, item_path(item), class: "font-medium text-indigo-600 hover:underline" %>
-                <p class="text-sm text-gray-500 truncate max-w-xs"><%= item.general_title %></p>
+    <tbody class="divide-y divide-border">
+      <% if @items.any? %>
+        <% @items.each do |item| %>
+          <tr class="hover:bg-muted/30 transition-colors">
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <% if item.front_image.attached? %>
+                  <%= image_tag item.front_image.variant(resize_to_fill: [48, 48]), class: "w-12 h-12 rounded-md object-cover mr-3" %>
+                <% else %>
+                  <div class="w-12 h-12 rounded-md bg-muted mr-3 flex items-center justify-center text-muted-foreground text-xs">No img</div>
+                <% end %>
+                <div>
+                  <%= link_to item.sku, item_path(item), class: "font-medium text-primary hover:underline" %>
+                  <p class="text-sm text-muted-foreground truncate max-w-xs"><%= item.general_title %></p>
+                </div>
               </div>
-            </div>
-          </td>
-          <td class="px-6 py-4 text-sm text-gray-700"><%= item.brand&.name %></td>
-          <td class="px-6 py-4 text-sm text-gray-700"><%= item.source&.name %></td>
-          <td class="px-6 py-4 text-sm text-gray-700"><%= currency(item.acquisition_cost) %></td>
-          <td class="px-6 py-4 text-sm text-gray-700"><%= item.listings.active.count %> active</td>
-          <td class="px-6 py-4"><%= status_badge(item.status) %></td>
-          <td class="px-6 py-4 text-right">
-            <%= link_to "View", item_path(item), class: "text-indigo-600 hover:underline text-sm" %>
+            </td>
+            <td class="px-6 py-4 text-sm text-foreground"><%= item.brand&.name %></td>
+            <td class="px-6 py-4 text-sm text-foreground"><%= item.source&.name %></td>
+            <td class="px-6 py-4 text-sm text-foreground"><%= currency(item.acquisition_cost) %></td>
+            <td class="px-6 py-4 text-sm text-foreground"><%= item.listings.active.count %> active</td>
+            <td class="px-6 py-4"><%= status_badge(item.status) %></td>
+            <td class="px-6 py-4 text-right">
+              <%= link_to "View", item_path(item), class: "text-primary hover:underline text-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="7" class="px-6 py-12 text-center">
+            <p class="text-muted-foreground text-sm">No items found.</p>
+            <p class="text-sm mt-1"><%= link_to "Add your first item", new_item_path, class: "text-primary hover:underline" %> or <%= link_to "clear filters", items_path, class: "text-primary hover:underline" %>.</p>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
+</div>
+
+<!-- Items Cards (mobile) -->
+<div class="md:hidden space-y-3">
+  <% if @items.any? %>
+    <% @items.each do |item| %>
+      <%= link_to item_path(item), class: "block bg-card border border-border rounded-lg p-4 active:bg-muted/50 transition-colors" do %>
+        <div class="flex items-start gap-3">
+          <% if item.front_image.attached? %>
+            <%= image_tag item.front_image.variant(resize_to_fill: [64, 64]), class: "w-16 h-16 rounded-lg object-cover shrink-0" %>
+          <% else %>
+            <div class="w-16 h-16 rounded-lg bg-muted flex items-center justify-center text-muted-foreground text-xs shrink-0">No img</div>
+          <% end %>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-medium text-primary"><%= item.sku %></span>
+              <%= status_badge(item.status) %>
+            </div>
+            <p class="text-sm text-foreground truncate"><%= item.general_title %></p>
+            <div class="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+              <% if item.brand&.name.present? %>
+                <span><%= item.brand.name %></span>
+              <% end %>
+              <span><%= currency(item.acquisition_cost) %></span>
+              <span><%= item.listings.active.count %> listing<%= item.listings.active.count == 1 ? '' : 's' %></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="bg-card border border-border rounded-lg p-8 text-center">
+      <p class="text-muted-foreground text-sm">No items found.</p>
+      <p class="text-sm mt-1"><%= link_to "Add your first item", new_item_path, class: "text-primary hover:underline" %></p>
+    </div>
+  <% end %>
 </div>
 
 <% if @pagy.pages > 1 %>
