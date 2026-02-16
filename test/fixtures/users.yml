@@ -4,3 +4,64 @@ admin:
   api_token: test_api_token_123
   subscription_status: 1
   trial_ends_at: <%= 14.days.from_now %>
+
+trialing_user:
+  email_address: trialing@thriftbot.local
+  password_digest: <%= BCrypt::Password.create("password") %>
+  api_token: test_api_token_trialing
+  subscription_status: 0
+  plan: free
+  trial_ends_at: <%= 7.days.from_now %>
+  stripe_customer_id: cus_trialing_123
+
+expired_trial_user:
+  email_address: expired@thriftbot.local
+  password_digest: <%= BCrypt::Password.create("password") %>
+  api_token: test_api_token_expired
+  subscription_status: 0
+  plan: free
+  trial_ends_at: <%= 1.day.ago %>
+  stripe_customer_id: cus_expired_456
+
+canceled_user:
+  email_address: canceled@thriftbot.local
+  password_digest: <%= BCrypt::Password.create("password") %>
+  api_token: test_api_token_canceled
+  subscription_status: 3
+  plan: pro
+  stripe_customer_id: cus_canceled_789
+  stripe_subscription_id: sub_canceled_789
+
+past_due_user:
+  email_address: pastdue@thriftbot.local
+  password_digest: <%= BCrypt::Password.create("password") %>
+  api_token: test_api_token_pastdue
+  subscription_status: 2
+  plan: pro
+  stripe_customer_id: cus_pastdue_012
+  stripe_subscription_id: sub_pastdue_012
+
+stripe_user:
+  email_address: stripe@thriftbot.local
+  password_digest: <%= BCrypt::Password.create("password") %>
+  api_token: test_api_token_stripe
+  subscription_status: 1
+  plan: pro
+  stripe_customer_id: cus_stripe_345
+  stripe_subscription_id: sub_stripe_345
+
+business_user:
+  email_address: business@thriftbot.local
+  password_digest: <%= BCrypt::Password.create("password") %>
+  api_token: test_api_token_business
+  subscription_status: 1
+  plan: business
+  stripe_customer_id: cus_business_678
+  stripe_subscription_id: sub_business_678
+
+free_user:
+  email_address: free@thriftbot.local
+  password_digest: <%= BCrypt::Password.create("password") %>
+  api_token: test_api_token_free
+  subscription_status: 4
+  plan: free
