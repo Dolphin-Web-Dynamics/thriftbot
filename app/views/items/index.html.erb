@@ -17,11 +17,11 @@
       </div>
       <div>
         <%= f.label :brand_id_eq, "Brand", class: "block text-sm font-medium text-foreground" %>
-        <%= f.select :brand_id_eq, Brand.order(:name).pluck(:name, :id), { include_blank: "All" }, class: "input mt-1", data: { action: "change->auto-submit#submitNow" } %>
+        <%= f.select :brand_id_eq, @brands_for_select, { include_blank: "All" }, class: "input mt-1", data: { action: "change->auto-submit#submitNow" } %>
       </div>
       <div>
         <%= f.label :source_id_eq, "Source", class: "block text-sm font-medium text-foreground" %>
-        <%= f.select :source_id_eq, Source.order(:name).pluck(:name, :id), { include_blank: "All" }, class: "input mt-1", data: { action: "change->auto-submit#submitNow" } %>
+        <%= f.select :source_id_eq, @sources_for_select, { include_blank: "All" }, class: "input mt-1", data: { action: "change->auto-submit#submitNow" } %>
       </div>
     </div>
     <div class="flex items-end">
