@@ -21,6 +21,11 @@ class ItemsController < ApplicationController
   end
 
   def create
+    unless current_user.can_create_items?
+      redirect_to new_subscription_path, alert: "You've reached the free tier limit of #{User::FREE_TIER_ITEM_LIMIT} items. Upgrade to Pro for unlimited items."
+      return
+    end
+
     @item = Item.new(item_params)
     if @item.save
       redirect_to @item, notice: "Item created successfully."

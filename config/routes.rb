@@ -1,8 +1,29 @@
 Rails.application.routes.draw do
   resource :session, only: %i[new create destroy]
   resource :password, only: %i[edit update]
+  resource :registration, only: %i[new create]
 
-  root "dashboard#index"
+  resource :subscription, only: %i[new create] do
+    post :portal, on: :member
+  end
+
+  namespace :webhooks do
+    post "stripe", to: "stripe#create"
+  end
+
+  namespace :admin do
+    root "dashboard#index"
+    resources :users, only: [ :index, :show, :edit, :update ] do
+      member do
+        patch :grant_free_access
+        patch :change_plan
+      end
+    end
+    resources :coupons, only: [ :index, :new, :create ]
+    resource :settings, only: [ :show ]
+  end
+
+  root "pages#home"
 
   resources :items do
     member do

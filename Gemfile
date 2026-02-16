@@ -54,6 +54,12 @@ gem "rack-cors"
 # Rate limiting
 gem "rack-attack"
 
+# Row-level multitenancy
+gem "acts_as_tenant"
+
+# Stripe payments
+gem "stripe"
+
 # Search and filtering
 gem "ransack"
 

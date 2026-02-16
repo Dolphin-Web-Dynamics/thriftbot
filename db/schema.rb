@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_16_002736) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_16_084350) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -72,6 +72,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_002736) do
     t.integer "records_count", default: 0
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_csv_imports_on_user_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -116,6 +118,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_002736) do
     t.integer "target_gender"
     t.text "unified_description"
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.decimal "weight", precision: 8, scale: 2
     t.decimal "width", precision: 8, scale: 2
     t.string "zip_code"
@@ -123,10 +126,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_002736) do
     t.index ["category_id"], name: "index_items_on_category_id"
     t.index ["csv_import_id"], name: "index_items_on_csv_import_id"
     t.index ["item_type"], name: "index_items_on_item_type"
-    t.index ["sku"], name: "index_items_on_sku", unique: true
     t.index ["source_id"], name: "index_items_on_source_id"
     t.index ["status"], name: "index_items_on_status"
     t.index ["subcategory_id"], name: "index_items_on_subcategory_id"
+    t.index ["user_id", "sku"], name: "index_items_on_user_id_and_sku", unique: true
+    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
   create_table "listings", force: :cascade do |t|
@@ -193,21 +197,37 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_002736) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "admin", default: false, null: false
+    t.string "api_token"
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.string "password_digest", null: false
+    t.string "plan", default: "free", null: false
+    t.string "provider"
+    t.string "stripe_customer_id"
+    t.string "stripe_subscription_id"
+    t.datetime "subscription_ends_at"
+    t.integer "subscription_status", default: 0
+    t.datetime "trial_ends_at"
+    t.string "uid"
     t.datetime "updated_at", null: false
+    t.index ["api_token"], name: "index_users_on_api_token", unique: true
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
+    t.index ["stripe_subscription_id"], name: "index_users_on_stripe_subscription_id", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ai_generations", "items"
+  add_foreign_key "csv_imports", "users"
   add_foreign_key "items", "brands"
   add_foreign_key "items", "categories"
   add_foreign_key "items", "csv_imports"
   add_foreign_key "items", "sources"
   add_foreign_key "items", "subcategories"
+  add_foreign_key "items", "users"
   add_foreign_key "listings", "items"
   add_foreign_key "listings", "platforms"
   add_foreign_key "sales", "items"

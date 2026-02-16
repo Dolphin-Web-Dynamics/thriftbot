@@ -1,0 +1,462 @@
+<% content_for(:title, "ThriftBot — Stop Losing Money on Inventory You Can't Track") %>
+
+<!-- ========== HERO ========== -->
+<section class="relative overflow-hidden" data-controller="scroll-reveal">
+  <!-- Subtle grid background -->
+  <div class="absolute inset-0 landing-grid-bg opacity-40"></div>
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full bg-primary/5 blur-3xl"></div>
+
+  <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-16 sm:pb-20 text-center">
+    <!-- Logo + login -->
+    <div class="flex items-center justify-between mb-16 sm:mb-20 scroll-reveal">
+      <span class="text-xl font-bold text-primary tracking-tight font-display">ThriftBot</span>
+      <%= link_to "Log in", new_session_path, class: "text-sm text-muted-foreground hover:text-foreground transition-colors" %>
+    </div>
+
+    <div class="scroll-reveal">
+      <p class="inline-block text-xs font-semibold tracking-widest uppercase text-primary mb-6 px-3 py-1.5 bg-primary/8 rounded-full font-mono">For resellers who mean business</p>
+    </div>
+
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground tracking-tight leading-[1.1] scroll-reveal font-display">
+      You hustle the sourcing.<br>
+      <span class="text-primary">Let us handle the chaos.</span>
+    </h1>
+
+    <p class="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed scroll-reveal">
+      Spreadsheets lose items. Notebooks don't calculate profit. ThriftBot tracks every piece from thrift rack to sold — so you know exactly what you're making.
+    </p>
+
+    <div class="mt-10 flex flex-col sm:flex-row gap-3 justify-center scroll-reveal">
+      <%= link_to new_registration_path, class: "btn btn-primary px-8 py-3.5 text-base shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] transition-all" do %>
+        Start free — no credit card needed
+        <svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      <% end %>
+    </div>
+
+    <p class="mt-5 text-sm text-muted-foreground scroll-reveal">
+      Free for up to <%= User::FREE_TIER_ITEM_LIMIT %> items. Upgrade when you're ready.
+    </p>
+
+    <!-- Platform logos as text -->
+    <div class="mt-12 pt-8 border-t border-border scroll-reveal">
+      <p class="text-xs text-muted-foreground uppercase tracking-widest mb-4 font-mono">Built for resellers on</p>
+      <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-semibold text-muted-foreground/70">
+        <span>Depop</span>
+        <span class="text-border">|</span>
+        <span>Poshmark</span>
+        <span class="text-border">|</span>
+        <span>eBay</span>
+        <span class="text-border">|</span>
+        <span>Mercari</span>
+        <span class="text-border">|</span>
+        <span>Grailed</span>
+        <span class="text-border">|</span>
+        <span>Vinted</span>
+      </div>
+    </div>
+
+    <!-- Hero lifestyle image -->
+    <div class="mt-12 scroll-reveal">
+      <div class="relative rounded-xl overflow-hidden shadow-2xl shadow-primary/10 max-w-4xl mx-auto">
+        <img
+          src="https://images.pexels.com/photos/374677/pexels-photo-374677.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=1100"
+          alt="Reseller browsing organized clothing racks in a thrift store"
+          class="w-full h-48 sm:h-64 lg:h-80 object-cover"
+          loading="eager"
+        >
+        <div class="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent"></div>
+        <div class="absolute bottom-4 left-4 right-4 text-center">
+          <p class="text-xs text-foreground/80 font-mono">From sourcing to sold — tracked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAIN POINTS ========== -->
+<section class="py-16 sm:py-24 bg-card/50" data-controller="scroll-reveal">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12 scroll-reveal">
+      <h2 class="text-2xl sm:text-3xl font-bold text-foreground font-display">Sound familiar?</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+      <div class="flex gap-4 p-5 rounded-xl bg-destructive/5 border border-destructive/10 scroll-reveal">
+        <div class="shrink-0 mt-0.5">
+          <svg class="w-5 h-5 text-destructive" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-foreground text-sm">Spreadsheet chaos</p>
+          <p class="text-sm text-muted-foreground mt-1">Your inventory lives in three different Google Sheets and none of them are up to date.</p>
+        </div>
+      </div>
+
+      <div class="flex gap-4 p-5 rounded-xl bg-destructive/5 border border-destructive/10 scroll-reveal">
+        <div class="shrink-0 mt-0.5">
+          <svg class="w-5 h-5 text-destructive" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-foreground text-sm">Lost items</p>
+          <p class="text-sm text-muted-foreground mt-1">You bought it two months ago. You know it's somewhere. You just can't find it.</p>
+        </div>
+      </div>
+
+      <div class="flex gap-4 p-5 rounded-xl bg-destructive/5 border border-destructive/10 scroll-reveal">
+        <div class="shrink-0 mt-0.5">
+          <svg class="w-5 h-5 text-destructive" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-foreground text-sm">Mystery profits</p>
+          <p class="text-sm text-muted-foreground mt-1">You're selling, but after platform fees, shipping, and costs — are you actually making money?</p>
+        </div>
+      </div>
+
+      <div class="flex gap-4 p-5 rounded-xl bg-destructive/5 border border-destructive/10 scroll-reveal">
+        <div class="shrink-0 mt-0.5">
+          <svg class="w-5 h-5 text-destructive" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </div>
+        <div>
+          <p class="font-semibold text-foreground text-sm">Platform juggling</p>
+          <p class="text-sm text-muted-foreground mt-1">Cross-listing on 5 platforms means 5 different dashboards and zero unified view.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-10 scroll-reveal">
+      <p class="text-lg font-semibold text-foreground font-display">There's a better way.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VISUAL BREAK ========== -->
+<section class="py-2" data-controller="scroll-reveal">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-3 gap-2 sm:gap-3 scroll-reveal">
+      <div class="rounded-lg overflow-hidden aspect-[4/3]">
+        <img
+          src="https://images.pexels.com/photos/6068971/pexels-photo-6068971.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=400&w=500"
+          alt="Reseller browsing vintage clothing"
+          class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+        >
+      </div>
+      <div class="rounded-lg overflow-hidden aspect-[4/3]">
+        <img
+          src="https://images.pexels.com/photos/4464482/pexels-photo-4464482.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=400&w=500"
+          alt="Packing an order for shipping"
+          class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+        >
+      </div>
+      <div class="rounded-lg overflow-hidden aspect-[4/3]">
+        <img
+          src="https://images.pexels.com/photos/7282431/pexels-photo-7282431.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=400&w=500"
+          alt="Organizing folded clothes for inventory"
+          class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURES AS SOLUTIONS ========== -->
+<section class="py-16 sm:py-24" data-controller="scroll-reveal">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14 scroll-reveal">
+      <h2 class="text-2xl sm:text-3xl font-bold text-foreground font-display">One app. Every item. Real profit numbers.</h2>
+      <p class="mt-3 text-muted-foreground text-lg max-w-2xl mx-auto">ThriftBot replaces your spreadsheets, guesswork, and platform-hopping with one clear system.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-5">
+      <div class="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 scroll-reveal">
+        <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-card-foreground mb-2">Know where every item is</h3>
+        <p class="text-sm text-muted-foreground leading-relaxed">Track from acquisition to sale — costs, brands, categories, condition, photos. No more digging through bins wondering what you paid.</p>
+      </div>
+
+      <div class="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 scroll-reveal">
+        <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016A3.001 3.001 0 0021 9.349m-18 0V3h18v6.35"/>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-card-foreground mb-2">One dashboard for all platforms</h3>
+        <p class="text-sm text-muted-foreground leading-relaxed">Manage listings across Depop, Poshmark, eBay, Mercari, Grailed — all from one screen. See what's listed where, and what's still sitting.</p>
+      </div>
+
+      <div class="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 scroll-reveal">
+        <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-card-foreground mb-2">See your real profit</h3>
+        <p class="text-sm text-muted-foreground leading-relaxed">Revenue minus costs, fees, and shipping — by item, platform, brand, and month. Finally know which sourcing trips actually pay off.</p>
+      </div>
+
+      <div class="group bg-card border border-border rounded-xl p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 scroll-reveal">
+        <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+          <svg class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-card-foreground mb-2">Import your existing inventory</h3>
+        <p class="text-sm text-muted-foreground leading-relaxed">Already tracking in a spreadsheet? Bulk import via CSV in seconds. No manual re-entry. Just drag, drop, done.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SOCIAL PROOF ========== -->
+<section class="py-16 sm:py-24 bg-card/50" data-controller="scroll-reveal">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12 scroll-reveal">
+      <h2 class="text-2xl sm:text-3xl font-bold text-foreground font-display">Resellers are switching to ThriftBot</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="bg-card border border-border rounded-xl p-6 scroll-reveal">
+        <div class="flex gap-0.5 mb-4">
+          <% 5.times do %><svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><% end %>
+        </div>
+        <p class="text-sm text-foreground leading-relaxed italic">"I went from guessing my margins to knowing them exactly. Found out my best sourcing spot wasn't where I thought it was."</p>
+        <p class="text-xs text-muted-foreground mt-4 font-semibold">— Depop seller, 200+ items</p>
+      </div>
+
+      <div class="bg-card border border-border rounded-xl p-6 scroll-reveal">
+        <div class="flex gap-0.5 mb-4">
+          <% 5.times do %><svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><% end %>
+        </div>
+        <p class="text-sm text-foreground leading-relaxed italic">"The CSV import alone saved me a full weekend. Had 300 items uploaded and organized in under an hour."</p>
+        <p class="text-xs text-muted-foreground mt-4 font-semibold">— Poshmark + eBay seller</p>
+      </div>
+
+      <div class="bg-card border border-border rounded-xl p-6 scroll-reveal">
+        <div class="flex gap-0.5 mb-4">
+          <% 5.times do %><svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><% end %>
+        </div>
+        <p class="text-sm text-foreground leading-relaxed italic">"I cross-list on 4 platforms. Before ThriftBot I had no idea which one was actually profitable. Now I do."</p>
+        <p class="text-xs text-muted-foreground mt-4 font-semibold">— Full-time reseller, Grailed + Mercari</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== HOW IT WORKS ========== -->
+<section class="py-16 sm:py-24" data-controller="scroll-reveal">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14 scroll-reveal">
+      <h2 class="text-2xl sm:text-3xl font-bold text-foreground font-display">Up and running in 5 minutes</h2>
+      <p class="mt-3 text-muted-foreground text-lg">No onboarding calls. No setup fees. Just start.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+      <div class="text-center scroll-reveal">
+        <div class="w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4 font-mono">1</div>
+        <h3 class="font-semibold text-foreground mb-2">Add your inventory</h3>
+        <p class="text-sm text-muted-foreground">Type it in or import a CSV. Costs, brands, condition, photos — all captured in one place.</p>
+      </div>
+
+      <div class="text-center scroll-reveal">
+        <div class="w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4 font-mono">2</div>
+        <h3 class="font-semibold text-foreground mb-2">List across platforms</h3>
+        <p class="text-sm text-muted-foreground">Track what's listed where with platform-specific pricing. One view, all your listings.</p>
+      </div>
+
+      <div class="text-center scroll-reveal">
+        <div class="w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4 font-mono">3</div>
+        <h3 class="font-semibold text-foreground mb-2">See your real numbers</h3>
+        <p class="text-sm text-muted-foreground">Record sales, track profit after all fees, and watch your analytics grow. Make smarter sourcing decisions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PRICING ========== -->
+<section class="py-16 sm:py-24 bg-card/50" id="pricing" data-controller="scroll-reveal">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-4 scroll-reveal">
+      <h2 class="text-2xl sm:text-3xl font-bold text-foreground font-display">Simple, honest pricing</h2>
+      <p class="mt-3 text-muted-foreground text-lg">Start free. Upgrade when your closet outgrows it.</p>
+    </div>
+    <p class="text-center text-sm text-primary font-semibold mb-12 scroll-reveal">14-day free trial on all paid plans. No credit card required.</p>
+
+    <div class="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto">
+      <!-- Free -->
+      <div class="bg-card border border-border rounded-xl p-7 flex flex-col scroll-reveal">
+        <h3 class="text-lg font-bold text-card-foreground mb-1">Free</h3>
+        <p class="text-sm text-muted-foreground mb-4">For getting started</p>
+        <div class="mb-5">
+          <span class="text-4xl font-bold text-card-foreground font-display">$0</span>
+          <span class="text-muted-foreground text-sm">/month</span>
+        </div>
+        <ul class="space-y-2.5 mb-8 text-sm text-foreground flex-1">
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Up to <%= User::FREE_TIER_ITEM_LIMIT %> items</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Multi-platform listings</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Sales tracking</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>CSV import</li>
+        </ul>
+        <%= link_to "Get started free", new_registration_path, class: "btn btn-secondary w-full text-center py-2.5" %>
+      </div>
+
+      <!-- Pro -->
+      <div class="bg-card border-2 border-primary rounded-xl p-7 relative flex flex-col shadow-lg shadow-primary/10 scroll-reveal">
+        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full tracking-wide font-mono">POPULAR</span>
+        <h3 class="text-lg font-bold text-card-foreground mb-1">Pro</h3>
+        <p class="text-sm text-muted-foreground mb-4">For growing resellers</p>
+        <div class="mb-5">
+          <span class="text-4xl font-bold text-card-foreground font-display">$9</span>
+          <span class="text-muted-foreground text-sm">/month</span>
+        </div>
+        <ul class="space-y-2.5 mb-8 text-sm text-foreground flex-1">
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Up to <%= User::PRO_TIER_ITEM_LIMIT %> items</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>AI-powered descriptions</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Advanced analytics</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Everything in Free</li>
+        </ul>
+        <%= link_to "Start 14-day free trial", new_registration_path, class: "btn btn-primary w-full text-center py-2.5" %>
+      </div>
+
+      <!-- Business -->
+      <div class="bg-card border border-border rounded-xl p-7 flex flex-col scroll-reveal">
+        <h3 class="text-lg font-bold text-card-foreground mb-1">Business</h3>
+        <p class="text-sm text-muted-foreground mb-4">For full-time sellers</p>
+        <div class="mb-5">
+          <span class="text-4xl font-bold text-card-foreground font-display">$19</span>
+          <span class="text-muted-foreground text-sm">/month</span>
+        </div>
+        <ul class="space-y-2.5 mb-8 text-sm text-foreground flex-1">
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><strong>Unlimited</strong> items</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Everything in Pro</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Priority support</li>
+          <li class="flex items-start gap-2"><svg class="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Vendoo API integration</li>
+        </ul>
+        <%= link_to "Start 14-day free trial", new_registration_path, class: "btn btn-primary w-full text-center py-2.5" %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== OBJECTION HANDLING ========== -->
+<section class="py-16 sm:py-24" data-controller="scroll-reveal">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Trust badges -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16 max-w-3xl mx-auto">
+      <div class="text-center p-4 scroll-reveal">
+        <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-2">
+          <svg class="w-5 h-5 text-success" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+        </div>
+        <p class="text-xs font-semibold text-foreground">No credit card</p>
+        <p class="text-xs text-muted-foreground">to start</p>
+      </div>
+      <div class="text-center p-4 scroll-reveal">
+        <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-2">
+          <svg class="w-5 h-5 text-success" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </div>
+        <p class="text-xs font-semibold text-foreground">Cancel anytime</p>
+        <p class="text-xs text-muted-foreground">no contracts</p>
+      </div>
+      <div class="text-center p-4 scroll-reveal">
+        <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-2">
+          <svg class="w-5 h-5 text-success" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+        </div>
+        <p class="text-xs font-semibold text-foreground">Your data is yours</p>
+        <p class="text-xs text-muted-foreground">export anytime</p>
+      </div>
+      <div class="text-center p-4 scroll-reveal">
+        <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-2">
+          <svg class="w-5 h-5 text-success" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/></svg>
+        </div>
+        <p class="text-xs font-semibold text-foreground">Works everywhere</p>
+        <p class="text-xs text-muted-foreground">phone, tablet, desktop</p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold text-foreground text-center mb-8 scroll-reveal font-display">Common questions</h2>
+
+      <div class="space-y-3" data-controller="faq">
+        <div class="border border-border rounded-lg overflow-hidden scroll-reveal">
+          <button type="button" class="w-full flex items-center justify-between p-4 text-left text-sm font-semibold text-foreground hover:bg-accent/50 transition-colors" data-action="faq#toggle" data-faq-target="trigger">
+            Do I need a credit card to start?
+            <svg class="w-4 h-4 text-muted-foreground transition-transform duration-200" data-faq-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+          <div class="hidden px-4 pb-4 text-sm text-muted-foreground leading-relaxed" data-faq-target="content">
+            No. The Free plan is completely free forever with up to <%= User::FREE_TIER_ITEM_LIMIT %> items. Paid plans start with a 14-day free trial — no card needed.
+          </div>
+        </div>
+
+        <div class="border border-border rounded-lg overflow-hidden scroll-reveal">
+          <button type="button" class="w-full flex items-center justify-between p-4 text-left text-sm font-semibold text-foreground hover:bg-accent/50 transition-colors" data-action="faq#toggle" data-faq-target="trigger">
+            Can I import my existing inventory?
+            <svg class="w-4 h-4 text-muted-foreground transition-transform duration-200" data-faq-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+          <div class="hidden px-4 pb-4 text-sm text-muted-foreground leading-relaxed" data-faq-target="content">
+            Yes. Upload a CSV and we'll map the columns for you. Most sellers are fully imported in under 10 minutes.
+          </div>
+        </div>
+
+        <div class="border border-border rounded-lg overflow-hidden scroll-reveal">
+          <button type="button" class="w-full flex items-center justify-between p-4 text-left text-sm font-semibold text-foreground hover:bg-accent/50 transition-colors" data-action="faq#toggle" data-faq-target="trigger">
+            What platforms does ThriftBot support?
+            <svg class="w-4 h-4 text-muted-foreground transition-transform duration-200" data-faq-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+          <div class="hidden px-4 pb-4 text-sm text-muted-foreground leading-relaxed" data-faq-target="content">
+            Depop, Poshmark, eBay, Mercari, Grailed, Vinted, Whatnot, Shopify, and more. You can track listings on any platform.
+          </div>
+        </div>
+
+        <div class="border border-border rounded-lg overflow-hidden scroll-reveal">
+          <button type="button" class="w-full flex items-center justify-between p-4 text-left text-sm font-semibold text-foreground hover:bg-accent/50 transition-colors" data-action="faq#toggle" data-faq-target="trigger">
+            Can I cancel anytime?
+            <svg class="w-4 h-4 text-muted-foreground transition-transform duration-200" data-faq-target="icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+          <div class="hidden px-4 pb-4 text-sm text-muted-foreground leading-relaxed" data-faq-target="content">
+            Yes. Cancel in one click from your account settings. No contracts, no cancellation fees, no hoops. Your data stays available to export.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FINAL CTA ========== -->
+<section class="relative py-16 sm:py-24 overflow-hidden" data-controller="scroll-reveal">
+  <!-- Background image with overlay -->
+  <div class="absolute inset-0">
+    <img
+      src="https://images.pexels.com/photos/6068975/pexels-photo-6068975.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=700&w=1400"
+      alt=""
+      class="w-full h-full object-cover"
+      loading="lazy"
+    >
+    <div class="absolute inset-0 bg-background/90"></div>
+  </div>
+
+  <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl sm:text-4xl font-bold text-foreground mb-4 scroll-reveal font-display">
+      Stop guessing.<br>Start knowing.
+    </h2>
+    <p class="text-muted-foreground text-lg mb-8 scroll-reveal">Every day without real numbers is a day you might be losing money. Set up takes 5 minutes.</p>
+    <div class="scroll-reveal">
+      <%= link_to new_registration_path, class: "btn btn-primary px-8 py-3.5 text-base shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] transition-all" do %>
+        Start free — no credit card needed
+        <svg class="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+      <% end %>
+    </div>
+    <p class="mt-4 text-sm text-muted-foreground scroll-reveal">Free for up to <%= User::FREE_TIER_ITEM_LIMIT %> items. Paid plans start at $9/mo.</p>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="border-t border-border py-8">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
+    <p>&copy; <%= Date.current.year %> ThriftBot. Built for resellers, by resellers.</p>
+  </div>
+</footer>

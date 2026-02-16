@@ -1,3 +1,6 @@
 admin:
   email_address: admin@thriftbot.local
   password_digest: <%= BCrypt::Password.create("password") %>
+  api_token: test_api_token_123
+  subscription_status: 1
+  trial_ends_at: <%= 14.days.from_now %>

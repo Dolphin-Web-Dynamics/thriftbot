@@ -15,7 +15,7 @@ class CsvImportsController < ApplicationController
 
     uploaded_file = params[:file]
     sanitized_filename = sanitize_filename(uploaded_file.original_filename)
-    @csv_import = CsvImport.create!(filename: sanitized_filename, status: :pending)
+    @csv_import = CsvImport.create!(filename: sanitized_filename, status: :pending, user: current_user)
 
     tempfile = Tempfile.new([ "csv_import", ".csv" ], Rails.root.join("tmp").to_s)
     begin
@@ -23,7 +23,7 @@ class CsvImportsController < ApplicationController
       tempfile.write(uploaded_file.read)
       tempfile.rewind
 
-      CsvImportService.new(@csv_import, tempfile.path).call
+      CsvImportService.new(@csv_import, tempfile.path, user: current_user).call
     ensure
       tempfile.close
       tempfile.unlink

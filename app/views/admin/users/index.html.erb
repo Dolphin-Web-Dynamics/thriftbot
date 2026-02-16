@@ -1,0 +1,59 @@
+<% content_for(:title, "Users — Admin") %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">Users</h1>
+  <%= form_with url: admin_users_path, method: :get, class: "flex gap-2", data: { turbo_frame: "_top" } do |f| %>
+    <%= f.search_field :search, value: params[:search], placeholder: "Search by email...", class: "input w-64" %>
+    <%= f.submit "Search", class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<div class="bg-card border border-border rounded-lg overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b border-border bg-muted/50">
+          <th class="text-left px-4 py-3 font-medium text-muted-foreground">Email</th>
+          <th class="text-left px-4 py-3 font-medium text-muted-foreground">Plan</th>
+          <th class="text-left px-4 py-3 font-medium text-muted-foreground">Status</th>
+          <th class="text-left px-4 py-3 font-medium text-muted-foreground">Items</th>
+          <th class="text-left px-4 py-3 font-medium text-muted-foreground">Joined</th>
+          <th class="text-right px-4 py-3 font-medium text-muted-foreground">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr class="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
+            <td class="px-4 py-3 font-medium"><%= user.email_address %></td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
+                <%= case user.plan
+                    when 'business' then 'bg-primary/10 text-primary'
+                    when 'pro' then 'bg-chart-3/10 text-chart-3'
+                    else 'bg-muted text-muted-foreground'
+                    end %>">
+                <%= user.current_plan_name %>
+              </span>
+            </td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
+                <%= case user.subscription_status
+                    when 'active' then 'bg-success/10 text-success'
+                    when 'trialing' then 'bg-warning/10 text-warning'
+                    when 'canceled' then 'bg-destructive/10 text-destructive'
+                    else 'bg-muted text-muted-foreground'
+                    end %>">
+                <%= user.subscription_status.titleize %>
+              </span>
+            </td>
+            <td class="px-4 py-3 text-muted-foreground"><%= user.items.count %></td>
+            <td class="px-4 py-3 text-muted-foreground"><%= user.created_at.strftime("%b %d, %Y") %></td>
+            <td class="px-4 py-3 text-right">
+              <%= link_to "View", admin_user_path(user), class: "text-primary hover:underline text-xs font-medium" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

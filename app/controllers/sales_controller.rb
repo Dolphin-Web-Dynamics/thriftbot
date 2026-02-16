@@ -2,7 +2,7 @@ class SalesController < ApplicationController
   before_action :set_sale, only: [ :show, :edit, :update ]
 
   def index
-    @q = Sale.ransack(params[:q])
+    @q = Sale.joins(:item).merge(Item.all).ransack(params[:q])
     @q.sorts = "sold_on desc" if @q.sorts.empty?
     @sales = @q.result.includes(:item, :platform, item: :brand)
     @pagy, @sales = pagy(@sales, limit: 25)
@@ -28,7 +28,7 @@ class SalesController < ApplicationController
   private
 
   def set_sale
-    @sale = Sale.includes(:item, :platform).find(params[:id])
+    @sale = Sale.joins(:item).merge(Item.all).find(params[:id])
   end
 
   def sale_params
