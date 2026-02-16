@@ -208,7 +208,7 @@
         <%= form_with url: record_sale_item_path(@item), method: :post, class: "space-y-3" do |f| %>
           <div>
             <%= f.label :platform_id, "Platform", class: "block text-sm text-muted-foreground" %>
-            <%= f.select :platform_id, Platform.active.order(:name).pluck(:name, :id), { prompt: "Select..." }, class: "input mt-1" %>
+            <%= f.select :platform_id, @platforms_for_select, { prompt: "Select..." }, class: "input mt-1" %>
           </div>
           <div>
             <%= f.label :sold_price, "Sold Price", class: "block text-sm text-muted-foreground" %>

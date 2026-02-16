@@ -22,19 +22,27 @@
       </tr>
     </thead>
     <tbody class="divide-y divide-border">
-      <% @sales.each do |sale| %>
-        <tr class="hover:bg-muted/30 transition-colors">
-          <td class="px-6 py-4">
-            <%= link_to sale.item.sku, item_path(sale.item), class: "font-medium text-primary hover:underline" %>
+      <% if @sales.any? %>
+        <% @sales.each do |sale| %>
+          <tr class="hover:bg-muted/30 transition-colors">
+            <td class="px-6 py-4">
+              <%= link_to sale.item.sku, item_path(sale.item), class: "font-medium text-primary hover:underline" %>
+            </td>
+            <td class="px-6 py-4 text-sm text-foreground"><%= sale.item.brand&.name %></td>
+            <td class="px-6 py-4 text-sm text-foreground"><%= sale.platform.name %></td>
+            <td class="px-6 py-4 text-sm text-foreground"><%= currency(sale.sold_price) %></td>
+            <td class="px-6 py-4 text-sm font-medium text-success"><%= currency(sale.revenue_received) %></td>
+            <td class="px-6 py-4 text-sm font-medium <%= sale.profit && sale.profit > 0 ? 'text-success' : 'text-destructive' %>">
+              <%= sale.profit ? currency(sale.profit) : "-" %>
+            </td>
+            <td class="px-6 py-4 text-sm text-muted-foreground"><%= sale.sold_on %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="7" class="px-6 py-12 text-center">
+            <p class="text-muted-foreground text-sm">No sales recorded yet.</p>
           </td>
-          <td class="px-6 py-4 text-sm text-foreground"><%= sale.item.brand&.name %></td>
-          <td class="px-6 py-4 text-sm text-foreground"><%= sale.platform.name %></td>
-          <td class="px-6 py-4 text-sm text-foreground"><%= currency(sale.sold_price) %></td>
-          <td class="px-6 py-4 text-sm font-medium text-success"><%= currency(sale.revenue_received) %></td>
-          <td class="px-6 py-4 text-sm font-medium <%= sale.profit && sale.profit > 0 ? 'text-success' : 'text-destructive' %>">
-            <%= sale.profit ? currency(sale.profit) : "-" %>
-          </td>
-          <td class="px-6 py-4 text-sm text-muted-foreground"><%= sale.sold_on %></td>
         </tr>
       <% end %>
     </tbody>
@@ -43,6 +51,7 @@
 
 <!-- Sales Cards (mobile) -->
 <div class="md:hidden space-y-3">
+  <% if @sales.any? %>
   <% @sales.each do |sale| %>
     <%= link_to item_path(sale.item), class: "block bg-card border border-border rounded-lg p-4 active:bg-muted/50 transition-colors" do %>
       <div class="flex items-center justify-between mb-2">
@@ -64,6 +73,11 @@
         </div>
       </div>
     <% end %>
+  <% end %>
+  <% else %>
+    <div class="bg-card border border-border rounded-lg p-8 text-center">
+      <p class="text-muted-foreground text-sm">No sales recorded yet.</p>
+    </div>
   <% end %>
 </div>
 
