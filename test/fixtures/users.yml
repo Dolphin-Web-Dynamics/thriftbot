@@ -4,3 +4,11 @@ admin:
   api_token: test_api_token_123
   subscription_status: 1
   trial_ends_at: <%= 14.days.from_now %>
+
+google_user:
+  email_address: googleuser@gmail.com
+  password_digest: <%= BCrypt::Password.create(SecureRandom.hex(32)) %>
+  provider: google_oauth2
+  uid: "123456789"
+  subscription_status: 1
+  trial_ends_at: <%= 14.days.from_now %>
