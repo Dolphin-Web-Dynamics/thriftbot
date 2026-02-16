@@ -28,5 +28,15 @@ Rails.application.routes.draw do
 
   get "dashboard", to: "dashboard#index"
 
+  namespace :api do
+    namespace :v1 do
+      resources :items, only: [ :index, :show ] do
+        member do
+          patch :mark_listed
+        end
+      end
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

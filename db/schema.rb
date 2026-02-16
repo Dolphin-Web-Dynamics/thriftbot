@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_232815) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_16_002736) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -91,9 +91,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_232815) do
     t.text "description"
     t.string "fit"
     t.string "general_title"
+    t.decimal "height", precision: 8, scale: 2
     t.string "image_url"
     t.text "imperfections"
     t.string "item_type"
+    t.decimal "length", precision: 8, scale: 2
     t.boolean "listed_with_vendoo", default: false, null: false
     t.string "materials"
     t.text "notes"
@@ -115,6 +117,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_232815) do
     t.text "unified_description"
     t.datetime "updated_at", null: false
     t.decimal "weight", precision: 8, scale: 2
+    t.decimal "width", precision: 8, scale: 2
+    t.string "zip_code"
     t.index ["brand_id"], name: "index_items_on_brand_id"
     t.index ["category_id"], name: "index_items_on_category_id"
     t.index ["csv_import_id"], name: "index_items_on_csv_import_id"
