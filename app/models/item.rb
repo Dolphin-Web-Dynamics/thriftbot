@@ -1,4 +1,6 @@
 class Item < ApplicationRecord
+  acts_as_tenant :user
+
   belongs_to :brand, optional: true
   belongs_to :category, optional: true
   belongs_to :subcategory, optional: true
@@ -30,7 +32,7 @@ class Item < ApplicationRecord
   enum :target_gender, { mens: 0, womens: 1, unisex: 2 }, prefix: true
 
   # Validations
-  validates :sku, presence: true, uniqueness: true
+  validates :sku, presence: true, uniqueness: { scope: :user_id }
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)

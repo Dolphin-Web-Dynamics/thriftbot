@@ -1,0 +1,42 @@
+<% content_for(:title, "Edit #{@user.email_address} — Admin") %>
+
+<div class="mb-6">
+  <%= link_to "&larr; Back to User".html_safe, admin_user_path(@user), class: "text-sm text-muted-foreground hover:text-foreground" %>
+</div>
+
+<h1 class="text-2xl font-bold mb-6">Edit User</h1>
+
+<div class="bg-card border border-border rounded-lg p-6 max-w-lg">
+  <%= form_with model: @user, url: admin_user_path(@user), method: :patch do |f| %>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Email</label>
+        <p class="text-sm text-muted-foreground"><%= @user.email_address %></p>
+      </div>
+
+      <div>
+        <%= f.label :plan, class: "block text-sm font-medium mb-1" %>
+        <%= f.select :plan, User.plans.keys.map { |p| [p.titleize, p] }, {}, class: "input w-full" %>
+      </div>
+
+      <div>
+        <%= f.label :subscription_status, class: "block text-sm font-medium mb-1" %>
+        <%= f.select :subscription_status, User.subscription_statuses.keys.map { |s| [s.titleize, s] }, {}, class: "input w-full" %>
+      </div>
+
+      <div>
+        <%= f.label :trial_ends_at, class: "block text-sm font-medium mb-1" %>
+        <%= f.datetime_local_field :trial_ends_at, class: "input w-full" %>
+      </div>
+
+      <div>
+        <%= f.label :subscription_ends_at, class: "block text-sm font-medium mb-1" %>
+        <%= f.datetime_local_field :subscription_ends_at, class: "input w-full" %>
+      </div>
+
+      <div class="pt-2">
+        <%= f.submit "Save Changes", class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

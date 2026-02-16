@@ -1,0 +1,5 @@
+one:
+  user: admin
+  filename: test_import.csv
+  status: 2
+  records_count: 10

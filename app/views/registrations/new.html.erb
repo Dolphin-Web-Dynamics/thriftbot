@@ -1,0 +1,40 @@
+<div class="min-h-[60vh] flex items-center justify-center">
+  <div class="w-full max-w-md">
+    <div class="bg-card border border-border shadow-sm rounded-xl px-8 py-10">
+      <h1 class="text-2xl font-bold text-card-foreground text-center mb-8">Create your account</h1>
+
+      <% if @user.errors.any? %>
+        <div class="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg mb-6">
+          <ul class="text-sm space-y-1">
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @user, url: registration_path, class: "space-y-6" do |f| %>
+        <div>
+          <%= f.label :email_address, "Email", class: "block text-sm font-medium text-foreground mb-1" %>
+          <%= f.email_field :email_address, autofocus: true, autocomplete: "email", required: true, class: "input" %>
+        </div>
+
+        <div>
+          <%= f.label :password, class: "block text-sm font-medium text-foreground mb-1" %>
+          <%= f.password_field :password, autocomplete: "new-password", required: true, class: "input" %>
+        </div>
+
+        <div>
+          <%= f.label :password_confirmation, "Confirm password", class: "block text-sm font-medium text-foreground mb-1" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: "input" %>
+        </div>
+
+        <%= f.submit "Sign up", class: "w-full btn btn-primary py-2.5 cursor-pointer" %>
+      <% end %>
+
+      <p class="text-center text-sm text-muted-foreground mt-6">
+        Already have an account? <%= link_to "Log in", new_session_path, class: "text-primary hover:underline font-medium" %>
+      </p>
+    </div>
+  </div>
+</div>

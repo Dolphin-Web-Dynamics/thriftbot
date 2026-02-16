@@ -1,12 +1,21 @@
 require "csv"
 
 class CsvImportService
-  def initialize(csv_import, file_path)
+  def initialize(csv_import, file_path, user: nil)
     @csv_import = csv_import
     @file_path = file_path
+    @user = user
   end
 
   def call
+    ActsAsTenant.with_tenant(@user) do
+      perform_import
+    end
+  end
+
+  private
+
+  def perform_import
     @csv_import.processing!
     count = 0
     errors = []
@@ -28,8 +37,6 @@ class CsvImportService
   rescue => e
     @csv_import.update!(status: :failed, error_log: "Import failed: #{e.message}")
   end
-
-  private
 
   def import_row(row)
     brand = row["Brand"].present? ? Brand.find_or_create_by!(name: row["Brand"].strip) : nil

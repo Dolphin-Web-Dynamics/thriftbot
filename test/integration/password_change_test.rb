@@ -20,6 +20,9 @@ class PasswordChangeTest < ActionDispatch::IntegrationTest
     }
     assert_redirected_to root_path
     follow_redirect!
+    # Root redirects logged-in users to dashboard
+    assert_redirected_to dashboard_path
+    follow_redirect!
     assert_select "div[role=alert]", /Password updated successfully/
 
     # Verify old password no longer works

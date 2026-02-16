@@ -7,6 +7,8 @@ class SessionsController < ApplicationController
   end
 
   def create
+    ensure_admin_user_exists if params[:email_address]&.strip&.downcase == ApplicationController::ADMIN_EMAIL
+
     user = User.authenticate_by(email_address: params[:email_address], password: params[:password])
 
     if user
@@ -21,5 +23,20 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     redirect_to new_session_path, notice: "Logged out."
+  end
+
+  private
+
+  def ensure_admin_user_exists
+    return if User.exists?(email_address: ApplicationController::ADMIN_EMAIL)
+
+    admin_password = ENV["ADMIN_PASSWORD"] || Rails.application.credentials.admin_password
+    return unless admin_password.present?
+
+    User.create!(
+      email_address: ApplicationController::ADMIN_EMAIL,
+      password: admin_password,
+      password_confirmation: admin_password
+    )
   end
 end

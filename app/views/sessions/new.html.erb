@@ -16,6 +16,10 @@
 
         <%= f.submit "Log in", class: "w-full btn btn-primary py-2.5 cursor-pointer" %>
       <% end %>
+
+      <p class="text-center text-sm text-muted-foreground mt-6">
+        Don't have an account? <%= link_to "Sign up", new_registration_path, class: "text-primary hover:underline font-medium" %>
+      </p>
     </div>
   </div>
 </div>

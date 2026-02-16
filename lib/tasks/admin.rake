@@ -2,7 +2,7 @@ namespace :admin do
   desc "Create or reset the admin user (prompts for credentials)"
   task setup: :environment do
     email = ENV.fetch("ADMIN_EMAIL") { print "Admin email: "; $stdin.gets.chomp }
-    password = ENV.fetch("ADMIN_PASSWORD") { print "Admin password: "; $stdin.gets.chomp }
+    password = ENV["ADMIN_PASSWORD"] || Rails.application.credentials.admin_password || (print "Admin password: "; $stdin.gets.chomp)
 
     user = User.find_or_initialize_by(email_address: email)
     user.password = password

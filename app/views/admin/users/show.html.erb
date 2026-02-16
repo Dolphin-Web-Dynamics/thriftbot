@@ -1,0 +1,72 @@
+<% content_for(:title, "#{@user.email_address} — Admin") %>
+
+<div class="mb-6">
+  <%= link_to "&larr; Back to Users".html_safe, admin_users_path, class: "text-sm text-muted-foreground hover:text-foreground" %>
+</div>
+
+<div class="bg-card border border-border rounded-lg p-6 mb-6">
+  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+    <div>
+      <h1 class="text-xl font-bold"><%= @user.email_address %></h1>
+      <p class="text-sm text-muted-foreground mt-1">Joined <%= @user.created_at.strftime("%B %d, %Y") %></p>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to "Edit", edit_admin_user_path(@user), class: "btn btn-primary text-sm" %>
+      <%= button_to "Grant Free Access", grant_free_access_admin_user_path(@user), method: :patch, class: "btn bg-success text-success-foreground text-sm", data: { turbo_confirm: "Grant free Business access to #{@user.email_address}?" } %>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <div class="bg-card border border-border rounded-lg p-4">
+    <p class="text-sm text-muted-foreground">Plan</p>
+    <p class="text-lg font-semibold mt-1"><%= @user.current_plan_name %></p>
+  </div>
+  <div class="bg-card border border-border rounded-lg p-4">
+    <p class="text-sm text-muted-foreground">Status</p>
+    <p class="text-lg font-semibold mt-1"><%= @user.subscription_status.titleize %></p>
+  </div>
+  <div class="bg-card border border-border rounded-lg p-4">
+    <p class="text-sm text-muted-foreground">Items</p>
+    <p class="text-lg font-semibold mt-1"><%= @items_count %></p>
+  </div>
+  <div class="bg-card border border-border rounded-lg p-4">
+    <p class="text-sm text-muted-foreground">Sales</p>
+    <p class="text-lg font-semibold mt-1"><%= @sales_count %></p>
+  </div>
+</div>
+
+<!-- Details -->
+<div class="bg-card border border-border rounded-lg p-6 mb-6">
+  <h2 class="text-sm font-semibold text-muted-foreground mb-4">Details</h2>
+  <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+    <div>
+      <dt class="text-muted-foreground">Trial Ends At</dt>
+      <dd class="font-medium mt-0.5"><%= @user.trial_ends_at&.strftime("%b %d, %Y %H:%M") || "—" %></dd>
+    </div>
+    <div>
+      <dt class="text-muted-foreground">Subscription Ends At</dt>
+      <dd class="font-medium mt-0.5"><%= @user.subscription_ends_at&.strftime("%b %d, %Y %H:%M") || "—" %></dd>
+    </div>
+    <div>
+      <dt class="text-muted-foreground">Stripe Customer ID</dt>
+      <dd class="font-medium mt-0.5 font-mono text-xs"><%= @user.stripe_customer_id || "—" %></dd>
+    </div>
+    <div>
+      <dt class="text-muted-foreground">Stripe Subscription ID</dt>
+      <dd class="font-medium mt-0.5 font-mono text-xs"><%= @user.stripe_subscription_id || "—" %></dd>
+    </div>
+  </dl>
+</div>
+
+<!-- Quick Plan Change -->
+<div class="bg-card border border-border rounded-lg p-6">
+  <h2 class="text-sm font-semibold text-muted-foreground mb-4">Quick Plan Change</h2>
+  <div class="flex gap-2 flex-wrap">
+    <% User.plans.each_key do |plan| %>
+      <% next if @user.plan == plan %>
+      <%= button_to plan.titleize, change_plan_admin_user_path(@user), method: :patch, params: { plan: plan }, class: "btn bg-muted text-foreground text-sm", data: { turbo_confirm: "Change plan to #{plan.titleize}?" } %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="max-w-5xl mx-auto py-12">
+  <div class="text-center mb-12">
+    <h1 class="text-3xl font-bold text-foreground mb-3">Choose your plan</h1>
+    <p class="text-muted-foreground text-lg">Start free, upgrade when you're ready</p>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    <%# === Free Tier === %>
+    <div class="bg-card border border-border rounded-xl p-8">
+      <h2 class="text-xl font-bold text-card-foreground mb-2">Free</h2>
+      <div class="mb-4">
+        <span class="text-4xl font-bold text-card-foreground">$0</span>
+        <span class="text-muted-foreground">/month</span>
+      </div>
+      <p class="text-muted-foreground mb-6">Perfect for getting started</p>
+      <ul class="space-y-3 mb-8">
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Up to <%= User::FREE_TIER_ITEM_LIMIT %> items
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Multi-platform listings
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Sales tracking
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          CSV import
+        </li>
+      </ul>
+      <% if current_user&.free_plan? && !current_user&.active? %>
+        <span class="block text-center btn btn-secondary w-full opacity-70 pointer-events-none">Current plan</span>
+      <% else %>
+        <span class="block text-center text-sm text-muted-foreground py-2">No card required</span>
+      <% end %>
+    </div>
+
+    <%# === Pro Tier === %>
+    <div class="bg-card border-2 border-primary rounded-xl p-8 relative">
+      <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">POPULAR</span>
+      <h2 class="text-xl font-bold text-card-foreground mb-2">Pro</h2>
+      <div class="mb-4">
+        <span class="text-4xl font-bold text-card-foreground">$9</span>
+        <span class="text-muted-foreground">/month</span>
+      </div>
+      <p class="text-muted-foreground mb-6">For growing resellers</p>
+      <ul class="space-y-3 mb-8">
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Up to <%= User::PRO_TIER_ITEM_LIMIT %> items
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Multi-platform listings
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Sales tracking & analytics
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          AI-powered descriptions
+        </li>
+      </ul>
+      <% if current_user&.pro_plan? && current_user&.active? %>
+        <%= button_to "Manage Subscription", portal_subscription_path, method: :post, class: "btn btn-secondary w-full cursor-pointer" %>
+      <% else %>
+        <%= button_to "Subscribe — $9/mo", subscription_path, method: :post, params: { plan: "pro" }, class: "btn btn-primary w-full cursor-pointer" %>
+      <% end %>
+    </div>
+
+    <%# === Business Tier === %>
+    <div class="bg-card border border-border rounded-xl p-8">
+      <h2 class="text-xl font-bold text-card-foreground mb-2">Business</h2>
+      <div class="mb-4">
+        <span class="text-4xl font-bold text-card-foreground">$19</span>
+        <span class="text-muted-foreground">/month</span>
+      </div>
+      <p class="text-muted-foreground mb-6">For serious resellers</p>
+      <ul class="space-y-3 mb-8">
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          <strong>Unlimited</strong>&nbsp;items
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Everything in Pro
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Priority support
+        </li>
+        <li class="flex items-center text-sm text-foreground">
+          <svg class="w-5 h-5 text-success mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Vendoo API integration
+        </li>
+      </ul>
+      <% if current_user&.business_plan? && current_user&.active? %>
+        <%= button_to "Manage Subscription", portal_subscription_path, method: :post, class: "btn btn-secondary w-full cursor-pointer" %>
+      <% else %>
+        <%= button_to "Subscribe — $19/mo", subscription_path, method: :post, params: { plan: "business" }, class: "btn btn-primary w-full cursor-pointer" %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if current_user&.active? %>
+    <p class="text-center text-sm text-muted-foreground mt-8">
+      Need to manage your subscription? <%= button_to "Open Billing Portal", portal_subscription_path, method: :post, class: "text-primary hover:underline font-medium inline", form: { class: "inline" } %>
+    </p>
+  <% end %>
+</div>

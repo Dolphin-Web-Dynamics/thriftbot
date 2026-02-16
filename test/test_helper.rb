@@ -10,13 +10,21 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
-    # Add more helper methods to be used by all tests here...
+    # Set tenant for model tests
+    def set_tenant(user)
+      ActsAsTenant.current_tenant = user
+    end
+
+    teardown do
+      ActsAsTenant.current_tenant = nil
+    end
   end
 end
 
 class ActionDispatch::IntegrationTest
   def login_as(user)
     post session_path, params: { email_address: user.email_address, password: "password" }
-    follow_redirect!
+    follow_redirect! # root_path -> pages#home
+    follow_redirect! # pages#home -> dashboard_path (for logged-in users)
   end
 end

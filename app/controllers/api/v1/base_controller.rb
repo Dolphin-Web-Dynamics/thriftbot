@@ -1,7 +1,12 @@
 module Api
   module V1
     class BaseController < ActionController::API
+      include ActsAsTenant::ControllerExtensions
+
+      set_current_tenant_through_filter
+
       before_action :authenticate_token
+      before_action :set_tenant
 
       rescue_from ActiveRecord::RecordNotFound do
         render json: { error: "not_found" }, status: :not_found
@@ -15,13 +20,14 @@ module Api
 
       def authenticate_token
         token = request.headers["Authorization"]&.delete_prefix("Bearer ")
-        expected = api_token
-        head :unauthorized and return unless token.present? && expected.present?
-        head :unauthorized unless ActiveSupport::SecurityUtils.secure_compare(token, expected)
+        head :unauthorized and return unless token.present?
+
+        @current_api_user = User.find_by(api_token: token)
+        head :unauthorized unless @current_api_user
       end
 
-      def api_token
-        ENV.fetch("API_BEARER_TOKEN") { ENV.fetch("ADMIN_PASSWORD", nil) }
+      def set_tenant
+        set_current_tenant(@current_api_user)
       end
 
       def default_url_options

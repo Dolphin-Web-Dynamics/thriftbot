@@ -1,6 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  user: admin
   sku: SKU-001
   general_title: Nike T-Shirt
   shopify_title: Nike T-Shirt
@@ -40,6 +41,7 @@ one:
   tags: nike,tshirt
 
 two:
+  user: admin
   sku: SKU-002
   general_title: Adidas Jeans
   shopify_title: Adidas Jeans
