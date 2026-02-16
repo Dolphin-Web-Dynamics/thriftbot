@@ -105,4 +105,10 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
+  # HTTP stubbing for Stripe API calls in controller/integration tests
+  gem "webmock"
+
+  # Chrome CDP driver for system tests (lighter than Selenium)
+  gem "cuprite"
 end
