@@ -94,6 +94,12 @@ class DatabaseBackupJobTest < ActiveJob::TestCase
     job.define_singleton_method(:s3_client) { fake_client }
     job.define_singleton_method(:credentials) { credentials }
 
+    # Stub create_backup to avoid SQLite "database is locked" errors during parallel tests
+    job.define_singleton_method(:create_backup) do |_db_path, backup_path|
+      FileUtils.mkdir_p(File.dirname(backup_path))
+      File.write(backup_path, "fake backup data")
+    end
+
     job
   end
 end

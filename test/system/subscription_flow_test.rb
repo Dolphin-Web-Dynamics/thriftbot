@@ -2,8 +2,10 @@ require "application_system_test_case"
 
 class SubscriptionFlowTest < ApplicationSystemTestCase
   setup do
-    unless ENV["STRIPE_SECRET_KEY"].present?
-      skip "Skipping system test — STRIPE_SECRET_KEY not set"
+    required = %w[STRIPE_SECRET_KEY STRIPE_PRO_PRICE_ID STRIPE_BUSINESS_PRICE_ID]
+    missing = required.select { |key| ENV[key].blank? }
+    if missing.any?
+      skip "Skipping system test — missing #{missing.join(', ')}"
     end
     @user = users(:trialing_user)
   end

@@ -121,13 +121,15 @@ class UserTest < ActiveSupport::TestCase
   # --- set_trial_period callback ---
 
   test "set_trial_period sets trial_ends_at on create" do
-    user = User.create!(
-      email_address: "newuser@test.com",
-      password: "password",
-      password_confirmation: "password"
-    )
-    assert_not_nil user.trial_ends_at
-    assert_in_delta 14.days.from_now, user.trial_ends_at, 5.seconds
+    travel_to Time.zone.parse("2026-02-16 12:00:00") do
+      user = User.create!(
+        email_address: "newuser@test.com",
+        password: "password",
+        password_confirmation: "password"
+      )
+      assert_not_nil user.trial_ends_at
+      assert_equal 14.days.from_now, user.trial_ends_at
+    end
   end
 
   # --- PLANS constant ---

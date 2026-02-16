@@ -88,10 +88,10 @@ jobs:
           RAILS_ENV: test
           # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           # REDIS_URL: redis://localhost:6379/0
-          STRIPE_SECRET_KEY: sk_test_placeholder
+          STRIPE_SECRET_KEY: test_key_placeholder
           STRIPE_PRO_PRICE_ID: price_test_pro
           STRIPE_BUSINESS_PRICE_ID: price_test_business
-          STRIPE_WEBHOOK_SIGNING_SECRET: whsec_test_placeholder
+          STRIPE_WEBHOOK_SIGNING_SECRET: test_webhook_placeholder
         run: bin/rails db:test:prepare test
 
   system-test:

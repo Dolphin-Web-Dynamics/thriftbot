@@ -33,10 +33,10 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
   test "create with pro plan creates checkout session and redirects" do
     login_as @user
 
-    stub_request(:get, "https://api.stripe.com/v1/customers/cus_trialing_123")
-      .to_return(status: 200, body: { id: "cus_trialing_123", object: "customer" }.to_json, headers: { "Content-Type" => "application/json" })
+    customer_stub = stub_request(:get, "https://api.stripe.com/v1/customers/#{@user.stripe_customer_id}")
+      .to_return(status: 200, body: { id: @user.stripe_customer_id, object: "customer" }.to_json, headers: { "Content-Type" => "application/json" })
 
-    stub_request(:post, "https://api.stripe.com/v1/checkout/sessions")
+    checkout_stub = stub_request(:post, "https://api.stripe.com/v1/checkout/sessions")
       .to_return(status: 200, body: {
         id: "cs_test_123",
         object: "checkout.session",
@@ -46,15 +46,17 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     post subscription_path, params: { plan: "pro" }
     assert_response :redirect
     assert_match %r{checkout\.stripe\.com}, response.location
+    assert_requested customer_stub
+    assert_requested checkout_stub
   end
 
   test "create with business plan creates checkout session" do
     login_as @user
 
-    stub_request(:get, "https://api.stripe.com/v1/customers/cus_trialing_123")
-      .to_return(status: 200, body: { id: "cus_trialing_123", object: "customer" }.to_json, headers: { "Content-Type" => "application/json" })
+    customer_stub = stub_request(:get, "https://api.stripe.com/v1/customers/#{@user.stripe_customer_id}")
+      .to_return(status: 200, body: { id: @user.stripe_customer_id, object: "customer" }.to_json, headers: { "Content-Type" => "application/json" })
 
-    stub_request(:post, "https://api.stripe.com/v1/checkout/sessions")
+    checkout_stub = stub_request(:post, "https://api.stripe.com/v1/checkout/sessions")
       .to_return(status: 200, body: {
         id: "cs_test_biz",
         object: "checkout.session",
@@ -64,6 +66,8 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     post subscription_path, params: { plan: "business" }
     assert_response :redirect
     assert_match %r{checkout\.stripe\.com}, response.location
+    assert_requested customer_stub
+    assert_requested checkout_stub
   end
 
   test "create without stripe_customer_id creates new customer first" do
