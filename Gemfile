@@ -48,6 +48,12 @@ gem "image_processing", "~> 1.2"
 # OpenAI API client for AI-generated descriptions and pricing
 gem "ruby-openai"
 
+# CORS for API access (Chrome extension)
+gem "rack-cors"
+
+# Rate limiting
+gem "rack-attack"
+
 # Search and filtering
 gem "ransack"
 
