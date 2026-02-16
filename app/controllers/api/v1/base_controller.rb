@@ -7,15 +7,21 @@ module Api
         render json: { error: "not_found" }, status: :not_found
       end
 
+      rescue_from ActiveRecord::RecordInvalid do |e|
+        render json: { error: e.message }, status: :unprocessable_entity
+      end
+
       private
 
       def authenticate_token
         token = request.headers["Authorization"]&.delete_prefix("Bearer ")
-        head :unauthorized unless token.present? && ActiveSupport::SecurityUtils.secure_compare(token, admin_password)
+        expected = api_token
+        head :unauthorized and return unless token.present? && expected.present?
+        head :unauthorized unless ActiveSupport::SecurityUtils.secure_compare(token, expected)
       end
 
-      def admin_password
-        ENV.fetch("ADMIN_PASSWORD")
+      def api_token
+        ENV.fetch("API_BEARER_TOKEN") { ENV.fetch("ADMIN_PASSWORD", nil) }
       end
 
       def default_url_options

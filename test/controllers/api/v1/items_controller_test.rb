@@ -4,7 +4,12 @@ class Api::V1::ItemsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @item = items(:one)
     @token = "test_admin_password"
+    @prev_admin_password = ENV["ADMIN_PASSWORD"]
     ENV["ADMIN_PASSWORD"] = @token
+  end
+
+  teardown do
+    ENV["ADMIN_PASSWORD"] = @prev_admin_password
   end
 
   def auth_headers
