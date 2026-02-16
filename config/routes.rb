@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   resource :password, only: %i[edit update]
   resource :registration, only: %i[new create]
 
+  get  "auth/:provider/callback", to: "omniauth_callbacks#create"
+  post "auth/:provider/callback", to: "omniauth_callbacks#create"
+  get  "auth/failure",            to: "omniauth_callbacks#failure"
+
   resource :subscription, only: %i[new create] do
     post :portal, on: :member
   end
