@@ -28,15 +28,13 @@ class SessionsController < ApplicationController
   private
 
   def ensure_admin_user_exists
-    return if User.exists?(email_address: ApplicationController::ADMIN_EMAIL)
+    admin_password = ENV["ADMIN_PASSWORD"].presence || Rails.application.credentials.admin_password.presence
+    return unless admin_password
 
-    admin_password = ENV["ADMIN_PASSWORD"] || Rails.application.credentials.admin_password
-    return unless admin_password.present?
-
-    User.create!(
-      email_address: ApplicationController::ADMIN_EMAIL,
-      password: admin_password,
-      password_confirmation: admin_password
-    )
+    User.find_or_create_by!(email_address: ApplicationController::ADMIN_EMAIL) do |user|
+      user.password = admin_password
+      user.password_confirmation = admin_password
+      user.admin = true
+    end
   end
 end

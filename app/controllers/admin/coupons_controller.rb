@@ -30,10 +30,15 @@ module Admin
       coupon = Stripe::Coupon.create(coupon_params)
 
       if params[:promo_code].present?
-        Stripe::PromotionCode.create(
-          coupon: coupon.id,
-          code: params[:promo_code]
-        )
+        begin
+          Stripe::PromotionCode.create(
+            coupon: coupon.id,
+            code: params[:promo_code]
+          )
+        rescue Stripe::StripeError => e
+          redirect_to admin_coupons_path, alert: "Coupon created, but promo code failed: #{e.message}"
+          return
+        end
       end
 
       redirect_to admin_coupons_path, notice: "Coupon created."

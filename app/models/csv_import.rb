@@ -9,4 +9,5 @@ class CsvImport < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
 
   validates :filename, presence: true
+  validates :user, presence: true
 end

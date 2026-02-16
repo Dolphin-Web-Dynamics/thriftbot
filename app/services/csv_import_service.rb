@@ -8,7 +8,10 @@ class CsvImportService
   end
 
   def call
-    ActsAsTenant.with_tenant(@user) do
+    tenant = @user || @csv_import.user
+    raise ArgumentError, "user is required for tenant-scoped import" unless tenant
+
+    ActsAsTenant.with_tenant(tenant) do
       perform_import
     end
   end

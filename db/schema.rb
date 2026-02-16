@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_16_073627) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_16_084350) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -197,19 +197,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_16_073627) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "admin", default: false, null: false
     t.string "api_token"
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.string "password_digest", null: false
     t.string "plan", default: "free", null: false
+    t.string "provider"
     t.string "stripe_customer_id"
     t.string "stripe_subscription_id"
     t.datetime "subscription_ends_at"
     t.integer "subscription_status", default: 0
     t.datetime "trial_ends_at"
+    t.string "uid"
     t.datetime "updated_at", null: false
     t.index ["api_token"], name: "index_users_on_api_token", unique: true
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["stripe_subscription_id"], name: "index_users_on_stripe_subscription_id", unique: true
   end

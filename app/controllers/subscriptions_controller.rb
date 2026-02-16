@@ -15,15 +15,20 @@ class SubscriptionsController < ApplicationController
 
     customer = find_or_create_stripe_customer
 
+    idempotency_key = "checkout_#{current_user.id}_#{plan}_#{Time.current.to_i}"
+
     checkout_session = Stripe::Checkout::Session.create(
-      customer: customer.id,
-      payment_method_types: [ "card" ],
-      line_items: [ { price: price_id, quantity: 1 } ],
-      mode: "subscription",
-      allow_promotion_codes: true,
-      success_url: dashboard_url + "?subscription=success",
-      cancel_url: new_subscription_url,
-      metadata: { plan: plan }
+      {
+        customer: customer.id,
+        payment_method_types: [ "card" ],
+        line_items: [ { price: price_id, quantity: 1 } ],
+        mode: "subscription",
+        allow_promotion_codes: true,
+        success_url: dashboard_url + "?subscription=success",
+        cancel_url: new_subscription_url,
+        metadata: { plan: plan }
+      },
+      { idempotency_key: idempotency_key }
     )
 
     redirect_to checkout_session.url, allow_other_host: true

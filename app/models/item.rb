@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   acts_as_tenant :user
+  belongs_to :user
 
   belongs_to :brand, optional: true
   belongs_to :category, optional: true

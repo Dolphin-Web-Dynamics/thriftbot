@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def admin_user?
-    current_user&.email_address == ADMIN_EMAIL
+    current_user&.admin?
   end
   helper_method :admin_user?
 end

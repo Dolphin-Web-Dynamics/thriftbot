@@ -29,7 +29,7 @@ class User < ApplicationRecord
   after_create :set_trial_period
 
   def subscribed?
-    active? || trialing_and_valid?
+    active? || trialing_and_valid? || free?
   end
 
   def trialing_and_valid?

@@ -20,10 +20,10 @@ module Api
 
       def authenticate_token
         token = request.headers["Authorization"]&.delete_prefix("Bearer ")
-        head :unauthorized and return unless token.present?
+        return head(:unauthorized) unless token.present?
 
         @current_api_user = User.find_by(api_token: token)
-        head :unauthorized unless @current_api_user
+        head(:unauthorized) unless @current_api_user
       end
 
       def set_tenant

@@ -50,7 +50,10 @@ puts "Seeded #{Category.count} categories with #{Subcategory.count} subcategorie
 admin_email = ENV.fetch("ADMIN_EMAIL", "anel@dolphinwebdynamics.com")
 admin = User.find_or_initialize_by(email_address: admin_email)
 if admin.new_record?
-  admin.password = ENV["ADMIN_PASSWORD"] || Rails.application.credentials.admin_password || raise("Set ADMIN_PASSWORD env var or add admin_password to credentials")
+  admin.password = ENV["ADMIN_PASSWORD"].presence ||
+                   Rails.application.credentials.admin_password.presence ||
+                   raise("Set ADMIN_PASSWORD env var or add admin_password to credentials")
+  admin.admin = true
   admin.save!
   puts "Seeded admin user: #{admin_email}"
 else
