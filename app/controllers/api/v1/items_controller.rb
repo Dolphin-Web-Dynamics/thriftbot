@@ -9,6 +9,11 @@ module Api
       # GET /api/v1/items?scope=vendoo_ready
       def index
         items = Item.includes(:brand, :category, :listings)
+                    .with_attached_front_image
+                    .with_attached_back_image
+                    .with_attached_additional_images
+                    .with_attached_measurement_images
+                    .with_attached_tag_images
 
         if params[:scope] == "vendoo_ready"
           items = items.where(listed_with_vendoo: false).where.not(status: [ :sold, :archived, :donated ])
