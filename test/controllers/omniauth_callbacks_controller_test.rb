@@ -7,6 +7,7 @@ class OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
 
   teardown do
     OmniAuth.config.mock_auth[:google_oauth2] = nil
+    OmniAuth.config.test_mode = false
   end
 
   test "creates new user from Google OAuth" do
@@ -58,11 +59,12 @@ class OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
 
   private
 
-  def mock_google_auth(email:, uid:)
+  def mock_google_auth(email:, uid:, email_verified: true)
     OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(
       provider: "google_oauth2",
       uid: uid,
-      info: { email: email, name: "Test User" }
+      info: { email: email, name: "Test User" },
+      extra: { id_info: { email_verified: email_verified }, raw_info: { email_verified: email_verified } }
     )
 
     Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:google_oauth2]
