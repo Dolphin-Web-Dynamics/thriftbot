@@ -35,9 +35,7 @@
             </div>
             <div class="hidden md:flex items-center gap-2">
               <%= link_to "New Item", new_item_path, class: "btn btn-primary" %>
-              <% unless current_user&.google_user? %>
-                <%= link_to "Change Password", edit_password_path, class: "text-muted-foreground hover:text-foreground text-sm font-medium px-2 py-1.5 rounded-md transition-colors" %>
-              <% end %>
+              <%= link_to "Change Password", edit_password_path, class: "text-muted-foreground hover:text-foreground text-sm font-medium px-2 py-1.5 rounded-md transition-colors" %>
               <%= button_to "Log out", session_path, method: :delete, class: "text-muted-foreground hover:text-foreground text-sm font-medium px-2 py-1.5 rounded-md transition-colors" %>
             </div>
             <!-- Mobile hamburger button -->
@@ -64,9 +62,7 @@
           </div>
           <div class="border-t border-border px-4 pt-3 pb-4 space-y-1">
             <%= link_to "New Item", new_item_path, class: "block px-3 py-2.5 rounded-lg text-base font-medium bg-primary text-primary-foreground text-center hover:opacity-90 transition-colors" %>
-            <% unless current_user&.google_user? %>
-              <%= link_to "Change Password", edit_password_path, class: "block px-3 py-2.5 rounded-lg text-base font-medium text-muted-foreground hover:bg-accent transition-colors" %>
-            <% end %>
+            <%= link_to "Change Password", edit_password_path, class: "block px-3 py-2.5 rounded-lg text-base font-medium text-muted-foreground hover:bg-accent transition-colors" %>
             <%= button_to "Log out", session_path, method: :delete, class: "block w-full text-left px-3 py-2.5 rounded-lg text-base font-medium text-muted-foreground hover:bg-accent transition-colors" %>
           </div>
         </div>
