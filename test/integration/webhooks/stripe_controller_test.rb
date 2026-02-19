@@ -237,6 +237,8 @@ class Webhooks::StripeControllerTest < ActionDispatch::IntegrationTest
     })
   end
 
+  # Safe under Rails parallel testing (forked processes, not threads).
+  # The ensure block restores the original method immediately after the request.
   def post_webhook_with_event(event)
     original_method = Stripe::Webhook.method(:construct_event)
     Stripe::Webhook.define_singleton_method(:construct_event) { |*_args| event }

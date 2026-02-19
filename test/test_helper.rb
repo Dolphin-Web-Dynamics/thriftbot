@@ -5,6 +5,8 @@ require "webmock/minitest"
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
+TEST_USER_PASSWORD = "password"
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
@@ -26,7 +28,7 @@ end
 
 class ActionDispatch::IntegrationTest
   def login_as(user)
-    post session_path, params: { email_address: user.email_address, password: "password" }
+    post session_path, params: { email_address: user.email_address, password: TEST_USER_PASSWORD }
     follow_redirect! # root_path -> pages#home
     follow_redirect! # pages#home -> dashboard_path (for logged-in users)
   end
