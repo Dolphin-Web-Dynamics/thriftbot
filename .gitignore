@@ -33,6 +33,11 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+# Node (wrangler CLI)
+/node_modules
+/package.json
+/package-lock.json
+
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
