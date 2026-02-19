@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="flex items-end">
-      <%= link_to "Clear", items_path, class: "text-muted-foreground hover:text-foreground text-sm px-3 py-2 transition-colors" %>
+      <%= link_to "Clear", items_path, class: "text-muted-foreground hover:text-foreground text-sm px-3 py-2 transition-colors", data: { turbo_frame: "items_results" } %>
     </div>
   <% end %>
 </div>
