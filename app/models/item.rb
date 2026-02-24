@@ -21,6 +21,13 @@ class Item < ApplicationRecord
   has_many_attached :imperfection_images
   has_many_attached :additional_images
 
+  # Image validations
+  ALLOWED_IMAGE_TYPES = %w[image/jpeg image/png image/webp image/heic image/heif].freeze
+  MAX_IMAGE_SIZE = 10.megabytes
+
+  validate :validate_image_content_types
+  validate :validate_image_file_sizes
+
   # Enums
   enum :status, { drafted: 0, listed: 1, sold: 2, archived: 3, donated: 4 }
   enum :condition, {
@@ -79,5 +86,43 @@ class Item < ApplicationRecord
 
   def track_status_change
     self.status_changed_at = Time.current if status_changed?
+  end
+
+  def validate_image_content_types
+    %i[front_image back_image].each do |attr|
+      attachment = public_send(attr)
+      next unless attachment.attached?
+      unless ALLOWED_IMAGE_TYPES.include?(attachment.blob.content_type)
+        errors.add(attr, "must be a JPEG, PNG, WebP, HEIC, or HEIF image")
+      end
+    end
+
+    %i[measurement_images tag_images imperfection_images additional_images].each do |attr|
+      public_send(attr).each do |image|
+        unless ALLOWED_IMAGE_TYPES.include?(image.blob.content_type)
+          errors.add(attr, "must be JPEG, PNG, WebP, HEIC, or HEIF images")
+          break
+        end
+      end
+    end
+  end
+
+  def validate_image_file_sizes
+    %i[front_image back_image].each do |attr|
+      attachment = public_send(attr)
+      next unless attachment.attached?
+      if attachment.blob.byte_size > MAX_IMAGE_SIZE
+        errors.add(attr, "must be less than 10 MB")
+      end
+    end
+
+    %i[measurement_images tag_images imperfection_images additional_images].each do |attr|
+      public_send(attr).each do |image|
+        if image.blob.byte_size > MAX_IMAGE_SIZE
+          errors.add(attr, "must each be less than 10 MB")
+          break
+        end
+      end
+    end
   end
 end
