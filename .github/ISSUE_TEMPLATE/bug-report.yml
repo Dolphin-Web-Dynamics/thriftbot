@@ -1,0 +1,41 @@
+name: Bug Report
+description: Report a bug or issue with Thriftbot
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which area of the app is affected?
+      options:
+        - UI/Design
+        - Login/Authentication
+        - Data Loading/Performance
+        - Form Submission/Saving Data
+        - Search/Filtering
+        - Reporting/Exporting Data
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the bug. Include steps to reproduce if possible.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, paste or drag-and-drop screenshots to help explain the problem.
+      placeholder: Drag and drop images here or paste from clipboard.
+    validations:
+      required: false
