@@ -93,14 +93,14 @@ class Item < ApplicationRecord
       attachment = public_send(attr)
       next unless attachment.attached?
       unless ALLOWED_IMAGE_TYPES.include?(attachment.blob.content_type)
-        errors.add(attr, "must be a JPEG, PNG, WebP, or HEIC image")
+        errors.add(attr, "must be a JPEG, PNG, WebP, HEIC, or HEIF image")
       end
     end
 
     %i[measurement_images tag_images imperfection_images additional_images].each do |attr|
       public_send(attr).each do |image|
         unless ALLOWED_IMAGE_TYPES.include?(image.blob.content_type)
-          errors.add(attr, "must be JPEG, PNG, WebP, or HEIC images")
+          errors.add(attr, "must be JPEG, PNG, WebP, HEIC, or HEIF images")
           break
         end
       end
