@@ -5,7 +5,7 @@
 
 <!-- Filters -->
 <div class="bg-card border border-border rounded-lg p-4 mb-6">
-  <%= search_form_for @q, class: "space-y-3 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-4 sm:items-end", data: { controller: "auto-submit", turbo_action: "replace" } do |f| %>
+  <%= search_form_for @q, class: "space-y-3 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-4 sm:items-end", data: { controller: "auto-submit", turbo_frame: "items_results" } do |f| %>
     <div class="w-full sm:w-auto">
       <%= f.label :sku_or_general_title_or_description_cont, "Search", class: "block text-sm font-medium text-foreground" %>
       <%= f.search_field :sku_or_general_title_or_description_cont, placeholder: "SKU, title, description...", class: "input mt-1 sm:w-64", data: { action: "input->auto-submit#submit" } %>
@@ -25,11 +25,12 @@
       </div>
     </div>
     <div class="flex items-end">
-      <%= link_to "Clear", items_path, class: "text-muted-foreground hover:text-foreground text-sm px-3 py-2 transition-colors" %>
+      <%= link_to "Clear", items_path, class: "text-muted-foreground hover:text-foreground text-sm px-3 py-2 transition-colors", data: { turbo_frame: "items_results" } %>
     </div>
   <% end %>
 </div>
 
+<%= turbo_frame_tag "items_results" do %>
 <!-- Items Table (desktop) -->
 <div class="hidden md:block bg-card border border-border rounded-lg overflow-hidden">
   <table class="min-w-full divide-y divide-border">
@@ -123,4 +124,5 @@
   <div class="mt-6 py-4">
     <%== @pagy.series_nav %>
   </div>
+<% end %>
 <% end %>

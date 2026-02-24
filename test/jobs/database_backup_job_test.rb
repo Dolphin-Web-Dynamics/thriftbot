@@ -74,8 +74,14 @@ class DatabaseBackupJobTest < ActiveJob::TestCase
   end
 
   test "cleans up temp file even on upload error" do
-    fake_client = FakeS3Client.new(raise_on_put: true)
+    fake_client = FakeS3Client.new
     job = build_job_with_fake_client(fake_client)
+
+    # Override upload_to_b2 to raise an S3 error directly, avoiding File.open
+    # on a path that may not exist if retry_on replays on a new instance.
+    job.define_singleton_method(:upload_to_b2) do |_backup_path, _filename|
+      raise Aws::S3::Errors::ServiceError.new(nil, "Connection failed")
+    end
 
     # retry_on catches the S3 error and re-enqueues, so perform_now won't raise.
     # The ensure block in perform should still clean up the temp file.

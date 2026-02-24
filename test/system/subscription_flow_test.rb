@@ -1,4 +1,5 @@
 require "application_system_test_case"
+require "ostruct"
 
 class SubscriptionFlowTest < ApplicationSystemTestCase
   setup do
@@ -24,10 +25,14 @@ class SubscriptionFlowTest < ApplicationSystemTestCase
   end
 
   test "subscribe button redirects to Stripe Checkout" do
+    fake_session = OpenStruct.new(url: "https://checkout.stripe.com/c/pay/cs_test_fake123")
+
     login_as_user @user
     visit new_subscription_path
 
-    click_button "Subscribe — $9/mo"
+    Stripe::Checkout::Session.stub(:create, ->(*_args) { fake_session }) do
+      click_button "Subscribe — $9/mo"
+    end
 
     # Should redirect to Stripe's hosted checkout
     assert_match %r{checkout\.stripe\.com}, current_url
