@@ -57,7 +57,7 @@
                   <div class="w-12 h-12 rounded-md bg-muted mr-3 flex items-center justify-center text-muted-foreground text-xs">No img</div>
                 <% end %>
                 <div>
-                  <%= link_to item.sku, item_path(item), class: "font-medium text-primary hover:underline" %>
+                  <%= link_to item.sku, item_path(item), class: "font-medium text-primary hover:underline", data: { turbo_frame: "_top" } %>
                   <p class="text-sm text-muted-foreground truncate max-w-xs"><%= item.general_title %></p>
                 </div>
               </div>
@@ -68,7 +68,7 @@
             <td class="px-6 py-4 text-sm text-foreground"><%= item.listings.active.count %> active</td>
             <td class="px-6 py-4"><%= status_badge(item.status) %></td>
             <td class="px-6 py-4 text-right">
-              <%= link_to "View", item_path(item), class: "text-primary hover:underline text-sm" %>
+              <%= link_to "View", item_path(item), class: "text-primary hover:underline text-sm", data: { turbo_frame: "_top" } %>
             </td>
           </tr>
         <% end %>
@@ -76,7 +76,7 @@
         <tr>
           <td colspan="7" class="px-6 py-12 text-center">
             <p class="text-muted-foreground text-sm">No items found.</p>
-            <p class="text-sm mt-1"><%= link_to "Add your first item", new_item_path, class: "text-primary hover:underline" %> or <%= link_to "clear filters", items_path, class: "text-primary hover:underline" %>.</p>
+            <p class="text-sm mt-1"><%= link_to "Add your first item", new_item_path, class: "text-primary hover:underline", data: { turbo_frame: "_top" } %> or <%= link_to "clear filters", items_path, class: "text-primary hover:underline" %>.</p>
           </td>
         </tr>
       <% end %>
@@ -88,7 +88,7 @@
 <div class="md:hidden space-y-3">
   <% if @items.any? %>
     <% @items.each do |item| %>
-      <%= link_to item_path(item), class: "block bg-card border border-border rounded-lg p-4 active:bg-muted/50 transition-colors" do %>
+      <%= link_to item_path(item), class: "block bg-card border border-border rounded-lg p-4 active:bg-muted/50 transition-colors", data: { turbo_frame: "_top" } do %>
         <div class="flex items-start gap-3">
           <% if item.front_image.attached? %>
             <%= image_tag item.front_image.variant(resize_to_fill: [64, 64]), class: "w-16 h-16 rounded-lg object-cover shrink-0" %>
@@ -115,7 +115,7 @@
   <% else %>
     <div class="bg-card border border-border rounded-lg p-8 text-center">
       <p class="text-muted-foreground text-sm">No items found.</p>
-      <p class="text-sm mt-1"><%= link_to "Add your first item", new_item_path, class: "text-primary hover:underline" %></p>
+      <p class="text-sm mt-1"><%= link_to "Add your first item", new_item_path, class: "text-primary hover:underline", data: { turbo_frame: "_top" } %></p>
     </div>
   <% end %>
 </div>
