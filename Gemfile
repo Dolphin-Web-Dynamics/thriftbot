@@ -68,7 +68,7 @@ gem "stripe"
 gem "ransack"
 
 # Lightweight pagination
-gem "pagy", "~> 43.3"
+gem "pagy", "~> 43.4"
 
 # Dashboard charts
 gem "chartkick"
